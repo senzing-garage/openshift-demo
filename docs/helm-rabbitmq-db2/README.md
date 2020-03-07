@@ -109,7 +109,7 @@ This repository assumes a working knowledge of:
       --cpus 4 \
       --memory 10gb \
       --disk-size=75g \
-      --vm-driver kvm2 \
+      --vm-driver kvm \
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
