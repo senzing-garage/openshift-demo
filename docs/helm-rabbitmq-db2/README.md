@@ -96,7 +96,7 @@ This repository assumes a working knowledge of:
 
 ### Helm/Tiller
 
-1. XXX
+1. Install Tiller on MiniShift.
    Example:
 
     ```console
@@ -104,9 +104,12 @@ This repository assumes a working knowledge of:
     minishift addons apply helm
     ```
 
+1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
+   on workstation.
+
 ### Environment variables
 
-1. XXX
+1. Set environment variables.
    Example:
 
     ```console
