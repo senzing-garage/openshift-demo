@@ -112,6 +112,7 @@ This repository assumes a working knowledge of:
     ```console
     minishift addons install /tmp/minishift-addons/add-ons/helm
     minishift addons apply helm
+    minishift addons enable helm
     ```
 
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
@@ -1159,4 +1160,7 @@ Feel free to submit a Pull Request for change.
 
 ## References
 
-1. [Minishift basic usage](https://docs.okd.io/latest/minishift/using/basic-usage.html)
+1. [OKD](https://docs.okd.io/)
+    1. [minishift](https://docs.okd.io/latest/minishift/index.html)
+        1. [Minishift basic usage](https://docs.okd.io/latest/minishift/using/basic-usage.html)
+1. [github.com/minishift/minishift](https://github.com/minishift/minishift/)
