@@ -90,7 +90,7 @@ This repository assumes a working knowledge of:
     minishift start \
       --profile minishift \
       --cpus 4 \
-      --memory 8192mb \
+      --memory 10gb \
       --disk-size=50g
     ```
 
@@ -114,9 +114,6 @@ This repository assumes a working knowledge of:
     minishift addons apply helm
     minishift addons enable helm
     ```
-
-1. References:
-    1. [github.com/minishift/minishift-addons/helm](https://github.com/minishift/minishift-addons/tree/master/add-ons/helm)
 
 ### Helm
 
@@ -1177,3 +1174,4 @@ Feel free to submit a Pull Request for change.
         1. [Minishift basic usage](https://docs.okd.io/latest/minishift/using/basic-usage.html)
 1. [github.com/minishift/minishift](https://github.com/minishift/minishift/)
     1. [github.com/minishift/minishift-addons/helm](https://github.com/minishift/minishift-addons/tree/master/add-ons/helm)
+1. [Adding Persistent Storage to Minishift / CDK 3 in Minutes](https://developers.redhat.com/blog/2017/04/05/adding-persistent-storage-to-minishift-cdk-3-in-minutes/)
