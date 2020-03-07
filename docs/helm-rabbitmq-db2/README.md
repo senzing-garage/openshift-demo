@@ -72,6 +72,13 @@ This repository assumes a working knowledge of:
 
 ### Prerequisite software
 
+1. Set minishift profile.
+   Example:
+
+    ```console
+    export MY_MINISHIFT_PROFILE=minishift
+    ```
+
 ### minishift cluster
 
 1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
@@ -79,8 +86,12 @@ This repository assumes a working knowledge of:
    Example:
 
     ```console
-    minishift addons install --defaults
-    minishift addons enable admin-user
+    minishift addons install \
+      --profile ${MY_MINISHIFT_PROFILE} \
+      --defaults
+
+    minishift addons enable admin-user \
+      --profile ${MY_MINISHIFT_PROFILE}
     ```
 
 1. Start cluster.
@@ -88,7 +99,7 @@ This repository assumes a working knowledge of:
 
     ```console
     minishift start \
-      --profile minishift \
+      --profile ${MY_MINISHIFT_PROFILE} \
       --cpus 4 \
       --memory 10gb \
       --disk-size=75g \
@@ -111,9 +122,9 @@ This repository assumes a working knowledge of:
    Example:
 
     ```console
-    minishift addons install /tmp/minishift-addons/add-ons/helm
-    minishift addons apply helm
-    minishift addons enable helm
+    minishift addons install /tmp/minishift-addons/add-ons/helm --profile ${MY_MINISHIFT_PROFILE}
+    minishift addons apply helm --profile ${MY_MINISHIFT_PROFILE}
+    minishift addons enable helm --profile ${MY_MINISHIFT_PROFILE}
     ```
 
 ### Helm
