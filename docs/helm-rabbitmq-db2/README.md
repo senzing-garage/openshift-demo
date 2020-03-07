@@ -72,11 +72,18 @@ This repository assumes a working knowledge of:
 
 ### Prerequisite software
 
-1. Set minishift profile.
+1. :pencil2: Set profile.
    Example:
 
     ```console
-    export MY_MINISHIFT_PROFILE_PARAMETER="--profile minishift"
+    export MY_MINISHIFT_PROFILE=minishift
+    ```
+
+1. Set profile parameter.
+   Example:
+
+    ```console
+    export MY_MINISHIFT_PROFILE_PARAMETER="--profile ${MY_MINISHIFT_PROFILE}"
     ```
 
 ### minishift cluster
@@ -98,16 +105,6 @@ This repository assumes a working knowledge of:
     minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
-1. Enable tiller addon.
-   Example:
-
-    ```console
-    cd /tmp
-    git clone https://github.com/minishift/minishift-addons.git
-
-    minishift addons install /tmp/minishift-addons/add-ons/helm ${MY_MINISHIFT_PROFILE_PARAMETER}
-    minishift addons enable helm ${MY_MINISHIFT_PROFILE_PARAMETER}
-    ```
 
 1. Start cluster.
    Example:
@@ -121,10 +118,38 @@ This repository assumes a working knowledge of:
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
+1. Enable tiller addon.
+   Example:
+
+    ```console
+    cd /tmp
+    git clone https://github.com/minishift/minishift-addons.git
+
+    minishift addons install /tmp/minishift-addons/add-ons/helm ${MY_MINISHIFT_PROFILE_PARAMETER}
+    minishift addons apply helm ${MY_MINISHIFT_PROFILE_PARAMETER}
+    minishift addons enable helm ${MY_MINISHIFT_PROFILE_PARAMETER}
+    ```
+
 ### Helm
 
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
+
+### oc
+
+1. xxx
+   Example:
+
+    ```console
+    oc config use-context ${MY_MINISHIFT_PROFILE}
+    ```
+
+1. xxx
+   Example:
+
+    ```console
+    oc login -u system:admin
+    ```
 
 ### Environment variables
 
