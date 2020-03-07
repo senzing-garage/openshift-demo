@@ -96,9 +96,9 @@ This repository assumes a working knowledge of:
 
 1. Wait for cluster to come up.
 
-### Helm/Tiller
+### Tiller
 
-1. Clone minishift-addons.
+1. Clone `minishift-addons`.
    Example:
 
     ```console
@@ -115,10 +115,13 @@ This repository assumes a working knowledge of:
     minishift addons enable helm
     ```
 
-1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
-   on workstation.
 1. References:
     1. [github.com/minishift/minishift-addons/helm](https://github.com/minishift/minishift-addons/tree/master/add-ons/helm)
+
+### Helm
+
+1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
+   on workstation.
 
 ### Environment variables
 
@@ -1150,6 +1153,15 @@ Feel free to submit a Pull Request for change.
     oc delete ${HELM_TLS} -f ${KUBERNETES_DIR}/persistent-volume-rabbitmq.yaml
     ```
 
+### Delete minikube cluster
+
+1. Example:
+
+    ```console
+    minishift stop
+    minishift delete -f
+    ```
+
 ### Delete git repository
 
 1. Delete git repository.  Example:
@@ -1164,3 +1176,4 @@ Feel free to submit a Pull Request for change.
     1. [minishift](https://docs.okd.io/latest/minishift/index.html)
         1. [Minishift basic usage](https://docs.okd.io/latest/minishift/using/basic-usage.html)
 1. [github.com/minishift/minishift](https://github.com/minishift/minishift/)
+    1. [github.com/minishift/minishift-addons/helm](https://github.com/minishift/minishift-addons/tree/master/add-ons/helm)
