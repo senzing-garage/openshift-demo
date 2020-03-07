@@ -87,7 +87,7 @@ This repository assumes a working knowledge of:
    Example:
 
     ```console
-    minishift config set openshift-version v3.10.0
+    minishift config set openshift-version v3.10.0 ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
 1. Enable addons.
