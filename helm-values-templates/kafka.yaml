@@ -1,0 +1,11 @@
+image:
+  registry: ${DOCKER_REGISTRY_URL}
+
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+
+securityContext:
+  enabled: true
+  runAsUser: ${SENZING_RUN_AS_USER}
+  runAsGroup: ${SENZING_RUN_AS_GROUP}
+  fsGroup: ${SENZING_FS_GROUP}
