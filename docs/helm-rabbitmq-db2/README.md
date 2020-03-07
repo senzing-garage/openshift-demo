@@ -88,6 +88,7 @@ This repository assumes a working knowledge of:
 
     ```console
     minishift start \
+      --profile minishift \
       --cpus 4 \
       --memory 8192mb \
       --disk-size=50g
@@ -97,11 +98,19 @@ This repository assumes a working knowledge of:
 
 ### Helm/Tiller
 
+1. Clone minishift-addons.
+   Example:
+
+    ```console
+    cd /tmp
+    git clone https://github.com/minishift/minishift-addons.git
+    ```
+
 1. Install Tiller.
    Example:
 
     ```console
-    minishift addons install helm
+    minishift addons install /tmp/minishift-addons/add-ons/helm
     minishift addons apply helm
     ```
 
