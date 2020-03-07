@@ -76,7 +76,7 @@ This repository assumes a working knowledge of:
    Example:
 
     ```console
-    export MY_MINISHIFT_PROFILE=minishift
+    export MY_MINISHIFT_PROFILE_PARAMETER="--profile minishift"
     ```
 
 ### minishift cluster
@@ -86,12 +86,19 @@ This repository assumes a working knowledge of:
    Example:
 
     ```console
-    minishift addons install \
-      --profile ${MY_MINISHIFT_PROFILE} \
-      --defaults
+    minishift addons install --defaults ${MY_MINISHIFT_PROFILE_PARAMETER}
+    minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
+    ```
 
-    minishift addons enable admin-user \
-      --profile ${MY_MINISHIFT_PROFILE}
+1. Enable tiller addon.
+   Example:
+
+    ```console
+    cd /tmp
+    git clone https://github.com/minishift/minishift-addons.git
+
+    minishift addons install /tmp/minishift-addons/add-ons/helm ${MY_MINISHIFT_PROFILE_PARAMETER}
+    minishift addons enable helm ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
 1. Start cluster.
@@ -99,32 +106,11 @@ This repository assumes a working knowledge of:
 
     ```console
     minishift start \
-      --profile ${MY_MINISHIFT_PROFILE} \
       --cpus 4 \
       --memory 10gb \
       --disk-size=75g \
-      --vm-driver kvm2
-    ```
-
-1. Wait for cluster to come up.
-
-### Tiller
-
-1. Clone `minishift-addons`.
-   Example:
-
-    ```console
-    cd /tmp
-    git clone https://github.com/minishift/minishift-addons.git
-    ```
-
-1. Install Tiller.
-   Example:
-
-    ```console
-    minishift addons install /tmp/minishift-addons/add-ons/helm --profile ${MY_MINISHIFT_PROFILE}
-    minishift addons apply helm --profile ${MY_MINISHIFT_PROFILE}
-    minishift addons enable helm --profile ${MY_MINISHIFT_PROFILE}
+      --vm-driver kvm2 \
+      ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
 ### Helm
