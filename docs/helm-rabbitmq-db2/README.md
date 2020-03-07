@@ -91,7 +91,7 @@ This repository assumes a working knowledge of:
       --profile minishift \
       --cpus 4 \
       --memory 10gb \
-      --disk-size=50g
+      --disk-size=75g
     ```
 
 1. Wait for cluster to come up.
