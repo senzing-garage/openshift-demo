@@ -88,7 +88,6 @@ This repository assumes a working knowledge of:
 
     ```console
     minishift start \
-      --profile minishift \
       --cpus 4 \
       --memory 8192mb \
       --disk-size=50g
@@ -106,6 +105,8 @@ This repository assumes a working knowledge of:
 
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
+1. References:
+    1. [github.com/minishift/minishift-addons/helm](https://github.com/minishift/minishift-addons/tree/master/add-ons/helm)
 
 ### Environment variables
 
@@ -114,6 +115,10 @@ This repository assumes a working knowledge of:
 
     ```console
     eval "$(minishift oc-env)"
+
+    export TILLER_HOST="$(minishift ip):$(oc get svc/tiller \
+      -o jsonpath='{.spec.ports[0].nodePort}' \
+      -n kube-system --as=system:admin)"
 
     export HELM_HOST="$(minishift ip):$(oc get svc/tiller \
       -o jsonpath='{.spec.ports[0].nodePort}' \
@@ -425,6 +430,15 @@ Only one method of creating PVCs is needed.
     oc create -f ${KUBERNETES_DIR}/security-context-constraint-runasany.yaml
     oc create -f ${KUBERNETES_DIR}/security-context-constraint-limited.yaml
 
+    ```
+
+### Initialize Helm
+
+1. Connect Helm to MiniShift.
+   Example:
+
+    ```console
+    helm init -c
     ```
 
 ### Add helm repositories
