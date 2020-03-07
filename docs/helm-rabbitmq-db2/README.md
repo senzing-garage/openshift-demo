@@ -115,8 +115,8 @@ This repository assumes a working knowledge of:
     ```console
     minishift start \
       --cpus 4 \
-      --memory 10gb \
-      --disk-size=75g \
+      --memory 10g \
+      --disk-size 75g \
       --vm-driver kvm \
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
