@@ -91,7 +91,8 @@ This repository assumes a working knowledge of:
       --profile minishift \
       --cpus 4 \
       --memory 10gb \
-      --disk-size=75g
+      --disk-size=75g \
+      --vm-driver kvm2
     ```
 
 1. Wait for cluster to come up.
@@ -1156,7 +1157,7 @@ Feel free to submit a Pull Request for change.
 
     ```console
     minishift stop
-    minishift delete -f
+    minishift delete --force
     ```
 
 ### Delete git repository
