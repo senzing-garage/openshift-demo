@@ -72,9 +72,10 @@ This repository assumes a working knowledge of:
 
 ### Prerequisite software
 
-### Enable addons
+### minishift cluster
 
-1. Enable addons
+1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
+1. Enable addons.
    Example:
 
     ```console
@@ -82,10 +83,7 @@ This repository assumes a working knowledge of:
     minishift addons enable admin-user
     ```
 
-### minishift cluster
-
-1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
-1. [Start cluster](https://docs.bitnami.com/kubernetes/get-started-kubernetes/#overview)
+1. Start cluster.
    Example:
 
     ```console
@@ -113,13 +111,14 @@ This repository assumes a working knowledge of:
 
     ```console
     eval "$(minishift oc-env)"
-    export HELM_HOST="$(minishift ip):$(oc get svc/tiller -o jsonpath='{.spec.ports[0].nodePort}' -n kube-system --as=system:admin)"
-    export MINISHIFT_ADMIN_CONTEXT="default/$(oc config view -o jsonpath='{.contexts[?(@.name=="minishift")].context.cluster}')/system:admin"
+
+    export HELM_HOST="$(minishift ip):$(oc get svc/tiller \
+      -o jsonpath='{.spec.ports[0].nodePort}' \
+      -n kube-system --as=system:admin)"
+
+    export MINISHIFT_ADMIN_CONTEXT="default/$(oc config view \
+      -o jsonpath='{.contexts[?(@.name=="minishift")].context.cluster}')/system:admin"
     ```
-
-1. [Install Tiller](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-tiller.md) in the minikube cluster.
-1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md) on your local workstation.
-
 
 ### Clone repository
 
