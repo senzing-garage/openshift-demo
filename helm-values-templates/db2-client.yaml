@@ -1,6 +1,0 @@
-image:
-  registry: ${DOCKER_REGISTRY_URL}
-
-db2:
-  password: db2inst1
-  optSenzingStorageClaim: senzing-persistent-volume-claim

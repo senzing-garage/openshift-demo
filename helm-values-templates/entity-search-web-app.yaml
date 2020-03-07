@@ -1,6 +1,0 @@
-image:
-  registry: ${DOCKER_REGISTRY_URL}
-
-senzing:
-  apiServerUrl: "http://${DEMO_PREFIX}-senzing-api-server:8080"
-

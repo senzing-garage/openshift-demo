@@ -48,7 +48,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [View data](#view-data)
 1. [Cleanup](#cleanup)
     1. [Delete everything in project](#delete-everything-in-project)
-    1. [Delete minikube cluster](#delete-minikube-cluster)
+    1. [Delete minishift cluster](#delete-minishift-cluster)
 
 ## Expectations
 
@@ -65,40 +65,61 @@ Budget 4 hours to get the demonstration up-and-running, depending on CPU and net
 This repository assumes a working knowledge of:
 
 1. [Docker](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/docker.md)
-1. [Kubernetes](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/kubernetes.md)
+1. [Openshift](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/openshift.md)
 1. [Helm](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/helm.md)
 
 ## Prerequisites
 
 ### Prerequisite software
 
-#### kubectl
+### Enable addons
 
-1. [Install kubectl](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-kubectl.md).
-
-#### minikube cluster
-
-1. [Install minikube](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minikube.md).
-1. [Start cluster](https://docs.bitnami.com/kubernetes/get-started-kubernetes/#overview)
+1. Enable addons
+   Example:
 
     ```console
-    minishift start --cpus 4 --memory 8192 --disk-size=50g
+    minishift addons install --defaults
+    minishift addons enable admin-user
     ```
 
-    Alternative:
+### minishift cluster
+
+1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
+1. [Start cluster](https://docs.bitnami.com/kubernetes/get-started-kubernetes/#overview)
+   Example:
 
     ```console
     minishift start \
+      --profile minishift \
       --cpus 4 \
-      --disk-size=50g \
-      --memory 8192 \
-      --vm-driver kvm
+      --memory 8192mb \
+      --disk-size=50g
     ```
 
-#### Helm/Tiller
+### Helm/Tiller
 
-1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md) on your local workstation.
+1. XXX
+   Example:
+
+    ```console
+    minishift addons install helm
+    minishift addons apply helm
+    ```
+
+### Environment variables
+
+1. XXX
+   Example:
+
+    ```console
+    eval "$(minishift oc-env)"
+    export HELM_HOST="$(minishift ip):$(oc get svc/tiller -o jsonpath='{.spec.ports[0].nodePort}' -n kube-system --as=system:admin)"
+    export MINISHIFT_ADMIN_CONTEXT="default/$(oc config view -o jsonpath='{.contexts[?(@.name=="minishift")].context.cluster}')/system:admin"
+    ```
+
 1. [Install Tiller](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-tiller.md) in the minikube cluster.
+1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md) on your local workstation.
+
 
 ### Clone repository
 
@@ -108,17 +129,12 @@ The Git repository has files that will be used in the `helm install --values` pa
 
     ```console
     export GIT_ACCOUNT=senzing
-    export GIT_REPOSITORY=kubernetes-demo
-    ```
-
-1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
-
-1. After the Git repository has been cloned, be sure the following environment variables are set:
-
-    ```console
+    export GIT_REPOSITORY=openshift-demo
     export GIT_ACCOUNT_DIR=~/${GIT_ACCOUNT}.git
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
+
+1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
 
 ## Demonstrate
 
@@ -594,11 +610,11 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
     kubectl delete -f ${KUBERNETES_DIR}/namespace.yaml
     ```
 
-### Delete minikube cluster
+### Delete minishift cluster
 
 1. Example:
 
     ```console
-    minikube stop
-    minikube delete
+    minishift stop
+    minishift delete
     ```
