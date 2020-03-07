@@ -82,6 +82,14 @@ This repository assumes a working knowledge of:
 ### minishift cluster
 
 1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
+
+1. Choose a stable version of OpenShift.
+   Example:
+
+    ```console
+    minishift config set openshift-version v3.10.0
+    ```
+
 1. Enable addons.
    Example:
 
