@@ -111,8 +111,9 @@ This repository assumes a working knowledge of:
     minishift start \
       --cpus 4 \
       --memory 10g \
-      --disk-size 75g \
+      --disk-size 150g \
       --vm-driver kvm \
+      --host-pv-dir /var/lib/minishift/openshift.local.pv \
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
@@ -330,7 +331,7 @@ Only one method needs to be performed.
 
     ```console
     export OC_DESCRIPTION="My description..."
-    export OC_DISPLAY_NAME="My project"
+    export OC_DISPLAY_NAME="My Senzing project"
     ```
 
 1. Create project.
@@ -1121,7 +1122,7 @@ Feel free to submit a Pull Request for change.
 
     ```console
     minishift stop
-    minishift delete --force
+    minishift delete --force --clear-cache
     ```
 
 ### Delete git repository
