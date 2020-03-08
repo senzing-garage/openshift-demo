@@ -4,6 +4,16 @@ image:
 imagePullSecrets:
   - name: ${DOCKER_REGISTRY_SECRET}
 
+rbacEnabled: true
+
+replicaCount: 10
+
+securityContext:
+  enabled: true
+  runAsUser: ${SENZING_RUN_AS_USER}
+  runAsGroup: ${SENZING_RUN_AS_GROUP}
+  fsGroup: ${SENZING_FS_GROUP}
+
 senzing:
   subcommand: rabbitmq
   databaseUrl: "db2://db2inst1:db2inst1@${DEMO_PREFIX}-senzing-ibm-db2:50000/G2"

@@ -600,7 +600,7 @@ The stream loader pulls messages from RabbitMQ and sends them to Senzing.
     helm install \
       --name ${DEMO_PREFIX}-senzing-stream-loader \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-stream-loader-rabbitmq.yaml \
+      --values ${HELM_VALUES_DIR}/senzing-stream-loader-rabbitmq-db2.yaml \
       senzing/senzing-stream-loader
     ```
 
