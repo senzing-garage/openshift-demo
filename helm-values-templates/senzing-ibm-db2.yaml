@@ -1,0 +1,18 @@
+db2:
+  license: accept
+  persistentVolumeClaim: db2-persistent-volume-claim
+
+image:
+  registry: ${DOCKER_REGISTRY_URL}
+
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+
+securityContext:
+  enabled: true
+  runAsUser: 0
+  runAsGroup: 0
+  fsGroup: 0
+
+senzing:
+  persistentVolumeClaim: senzing-persistent-volume-claim

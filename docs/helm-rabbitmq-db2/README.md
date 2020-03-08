@@ -72,6 +72,9 @@ This repository assumes a working knowledge of:
 
 ### Prerequisite software
 
+### minishift cluster
+
+1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
 1. :pencil2: Set profile.
    Example:
 
@@ -85,10 +88,6 @@ This repository assumes a working knowledge of:
     ```console
     export MY_MINISHIFT_PROFILE_PARAMETER="--profile ${MY_MINISHIFT_PROFILE}"
     ```
-
-### minishift cluster
-
-1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
 
 1. Choose a stable version of OpenShift.
    Example:
@@ -241,13 +240,6 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
     export DOCKER_REGISTRY_SECRET=${DOCKER_REGISTRY_URL}-secret
     ```
 
-1. :thinking: **Optional:** If using Transport Layer Security (TLS),
-   then set the following environment variable:
-
-    ```console
-    export HELM_TLS="--tls"
-    ```
-
 ### Security context
 
 1. FIXME: Find acceptable UIDs for system.
@@ -264,15 +256,6 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
     export SENZING_RUN_AS_USER=1001
     export SENZING_RUN_AS_GROUP=1001
     export SENZING_FS_GROUP=1001
-    ```
-
-### Persistent volume storage class
-
-1. :pencil2: Environment variables for `spec.storageClassName` values.
-   Example:
-
-    ```console
-    export PERSISTENT_VOLUME_STORAGE_CLASS_NAME=nfs-client
     ```
 
 ### Database connection information
@@ -391,7 +374,9 @@ Only one method needs to be performed.
 
 ### Create persistent volume
 
-1. :thinking: **Optional:** Review persistent volumes and claims.
+Minishift creates persistent volumes automatically.
+
+1. :thinking: **Optional:** Review persistent volumes.
    Example:
 
     ```console
@@ -425,7 +410,14 @@ Only one method needs to be performed.
     ```console
     oc create -f ${KUBERNETES_DIR}/security-context-constraint-runasany.yaml
     oc create -f ${KUBERNETES_DIR}/security-context-constraint-limited.yaml
+    ```
 
+1. :thinking: **Optional:** Review persistent volumes and claims.
+   Example:
+
+    ```console
+    oc get securityContextConstraints \
+      --namespace ${DEMO_NAMESPACE}
     ```
 
 ### Initialize Helm
@@ -434,7 +426,7 @@ Only one method needs to be performed.
    Example:
 
     ```console
-    helm init -c
+    helm init
     ```
 
 ### Add helm repositories
@@ -480,7 +472,7 @@ This deployment initializes the Persistent Volume with Senzing code and data.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-yum \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-yum.yaml \
@@ -504,11 +496,35 @@ This deployment adds the IBM Db2 Client driver code to the Persistent Volume.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-ibm-db2-driver-installer \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/ibm-db2-driver-installer.yaml \
       senzing/ibm-db2-driver-installer
+    ```
+
+### Install Db2 Helm chart
+
+This step starts IBM Db2 database and populates the database with the Senzing schema.
+
+1. Add Security Context Constraint.
+   Example:
+
+    ```console
+    oc adm policy add-scc-to-user \
+      senzing-security-context-constraint-runasany \
+      -z ${DEMO_PREFIX}-senzing-ibm-db2
+    ```
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-ibm-db2 \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${HELM_VALUES_DIR}/senzing-ibm-db2.yaml \
+      senzing/senzing-ibm-db2
     ```
 
 ### Install RabbitMQ Helm chart
@@ -528,7 +544,7 @@ This deployment creates a RabbitMQ service.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-rabbitmq \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/rabbitmq.yaml \
@@ -563,7 +579,7 @@ The mock data generator pulls JSON lines from a file and pushes them to RabbitMQ
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-mock-data-generator \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-mock-data-generator-rabbitmq.yaml \
@@ -588,7 +604,7 @@ in later steps.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-base \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-base.yaml \
@@ -773,7 +789,7 @@ The init-container creates files from templates and initializes the G2 database.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-init-container \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-init-container.yaml \
@@ -806,7 +822,7 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-configurator \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-configurator.yaml \
@@ -832,7 +848,7 @@ The stream loader pulls messages from RabbitMQ and sends them to Senzing.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-stream-loader \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-stream-loader-rabbitmq.yaml \
@@ -856,7 +872,7 @@ The Senzing Redoer processes Senzing "redo" records.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-redoer \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-redoer.yaml \
@@ -880,7 +896,7 @@ The Senzing API server receives HTTP requests to read and modify Senzing data.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-api-server \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-api-server.yaml \
@@ -915,7 +931,7 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-entity-search-web-app \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-entity-search-web-app.yaml \
@@ -1061,7 +1077,7 @@ and run Senzing utility programs.
    Example:
 
     ```console
-    helm install ${HELM_TLS} \
+    helm install \
       --name ${DEMO_PREFIX}-senzing-debug \
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-debug.yaml \
@@ -1120,25 +1136,23 @@ Feel free to submit a Pull Request for change.
 1. Example:
 
     ```console
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-entity-search-web-app
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-api-server
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-redoer
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-stream-loader
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-configurator
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-init-container
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-base
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-ibm-db2-driver-installer
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-yum
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-mock-data-generator
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-rabbitmq
-    helm delete ${HELM_TLS} --purge ${DEMO_PREFIX}-senzing-debug
+    helm delete --purge ${DEMO_PREFIX}-senzing-entity-search-web-app
+    helm delete --purge ${DEMO_PREFIX}-senzing-api-server
+    helm delete --purge ${DEMO_PREFIX}-senzing-redoer
+    helm delete --purge ${DEMO_PREFIX}-senzing-stream-loader
+    helm delete --purge ${DEMO_PREFIX}-senzing-configurator
+    helm delete --purge ${DEMO_PREFIX}-senzing-init-container
+    helm delete --purge ${DEMO_PREFIX}-senzing-base
+    helm delete --purge ${DEMO_PREFIX}-ibm-db2-driver-installer
+    helm delete --purge ${DEMO_PREFIX}-senzing-yum
+    helm delete --purge ${DEMO_PREFIX}-senzing-mock-data-generator
+    helm delete --purge ${DEMO_PREFIX}-rabbitmq
+    helm delete --purge ${DEMO_PREFIX}-senzing-debug
     helm repo remove senzing
-    oc delete ${HELM_TLS} -f ${KUBERNETES_DIR}/security-context-constraint-limited.yaml
-    oc delete ${HELM_TLS} -f ${KUBERNETES_DIR}/security-context-constraint-runasany.yaml
-    oc delete ${HELM_TLS} -f ${KUBERNETES_DIR}/persistent-volume-claim-senzing.yaml
-    oc delete ${HELM_TLS} -f ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq.yaml
-    oc delete ${HELM_TLS} -f ${KUBERNETES_DIR}/persistent-volume-senzing.yaml
-    oc delete ${HELM_TLS} -f ${KUBERNETES_DIR}/persistent-volume-rabbitmq.yaml
+    oc delete -f ${KUBERNETES_DIR}/security-context-constraint-limited.yaml
+    oc delete -f ${KUBERNETES_DIR}/security-context-constraint-runasany.yaml
+    oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-senzing.yaml
+    oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq.yaml
     ```
 
 ### Delete minikube cluster
