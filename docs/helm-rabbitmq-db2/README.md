@@ -111,6 +111,8 @@ This repository assumes a working knowledge of:
 
 ### Tiller
 
+** May not be needed. **
+
 1. FIXME: Enable tiller addon.
    Example:
 
@@ -135,7 +137,8 @@ This repository assumes a working knowledge of:
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
 
-1. FIXME: Set environment variables.
+1. FIXME: ** May not be needed. **
+   Set environment variables.
    Example:
 
     ```console
