@@ -361,6 +361,7 @@ Minishift creates persistent volumes automatically.
    Example:
 
     ```console
+    oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-db2.yaml
     oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq.yaml
     oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-senzing.yaml
     ```
