@@ -236,7 +236,7 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
 
     ```console
     export DEMO_PREFIX=my
-    export DEMO_NAMESPACE=zen
+    export DEMO_NAMESPACE=${DEMO_PREFIX}-namespace
 
     export DOCKER_REGISTRY_URL=docker.io
     export DOCKER_REGISTRY_SECRET=${DOCKER_REGISTRY_URL}-secret
