@@ -106,7 +106,6 @@ This repository assumes a working knowledge of:
       --memory 10GB \
       --disk-size 150GB \
       --openshift-version v3.10.0 \
-      --vm-driver kvm \
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
