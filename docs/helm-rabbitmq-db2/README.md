@@ -104,6 +104,14 @@ This repository assumes a working knowledge of:
     minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
+
+1. :pencil2: Identify a directory on local host to store persistent volumes.
+   Example:
+
+    ```console
+    export MINISHIFT_HOST_PV_DIR=/var/lib/minishift/openshift.local.pv
+    ```
+
 1. Start cluster.
    Example:
 
@@ -113,7 +121,7 @@ This repository assumes a working knowledge of:
       --memory 10g \
       --disk-size 150g \
       --vm-driver kvm \
-      --host-pv-dir /var/lib/minishift/openshift.local.pv \
+      --host-pv-dir ${MINISHIFT_HOST_PV_DIR} \
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
