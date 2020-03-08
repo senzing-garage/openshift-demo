@@ -89,13 +89,6 @@ This repository assumes a working knowledge of:
     export MY_MINISHIFT_PROFILE_PARAMETER="--profile ${MY_MINISHIFT_PROFILE}"
     ```
 
-1. Choose a stable version of OpenShift.
-   Example:
-
-    ```console
-    minishift config set openshift-version v3.10.0 ${MY_MINISHIFT_PROFILE_PARAMETER}
-    ```
-
 1. Enable addons.
    Example:
 
@@ -104,24 +97,16 @@ This repository assumes a working knowledge of:
     minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
-
-1. :pencil2: Identify a directory on local host to store persistent volumes.
-   Example:
-
-    ```console
-    export MINISHIFT_HOST_PV_DIR=/var/lib/minishift/openshift.local.pv
-    ```
-
 1. Start cluster.
    Example:
 
     ```console
     minishift start \
       --cpus 4 \
-      --memory 10g \
-      --disk-size 150g \
+      --memory 10GB \
+      --disk-size 150GB \
+      --openshift-version v3.10.0 \
       --vm-driver kvm \
-      --host-pv-dir ${MINISHIFT_HOST_PV_DIR} \
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
