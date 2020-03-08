@@ -1103,6 +1103,7 @@ Feel free to submit a Pull Request for change.
     helm delete --purge ${DEMO_PREFIX}-senzing-configurator
     helm delete --purge ${DEMO_PREFIX}-senzing-init-container
     helm delete --purge ${DEMO_PREFIX}-senzing-base
+    helm delete --purge ${DEMO_PREFIX}-senzing-ibm-db2
     helm delete --purge ${DEMO_PREFIX}-ibm-db2-driver-installer
     helm delete --purge ${DEMO_PREFIX}-senzing-yum
     helm delete --purge ${DEMO_PREFIX}-senzing-mock-data-generator
