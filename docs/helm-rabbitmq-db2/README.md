@@ -104,7 +104,6 @@ This repository assumes a working knowledge of:
     minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
-
 1. Start cluster.
    Example:
 
@@ -118,6 +117,7 @@ This repository assumes a working knowledge of:
     ```
 
 1. Enable tiller addon.
+   FIXME:
    Example:
 
     ```console
@@ -141,25 +141,10 @@ This repository assumes a working knowledge of:
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
 
-### oc
-
-1. xxx
-   Example:
-
-    ```console
-    oc config use-context ${MY_MINISHIFT_PROFILE}
-    ```
-
-1. xxx
-   Example:
-
-    ```console
-    oc login -u system:admin
-    ```
-
 ### Environment variables
 
 1. Set environment variables.
+   FIXME:
    Example:
 
     ```console
@@ -197,23 +182,40 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ### Log into OpenShift
 
-1. :pencil2: Set environment variables.
-   **Note:** Setting `OC_PASSWORD` as an environment variable is not a best practice.
-   The example is meant to highlight the variables used in the `oc login` command.
+1. :pencil2: Set profile.
    Example:
 
     ```console
-    export OC_USERNAME=my-username
-    export OC_PASSWORD=my-password
-    export OC_URL=https://xxxx:8443
+    export MY_MINISHIFT_PROFILE=minishift
     ```
 
-1. Login.
+1. Set profile parameter.
    Example:
 
-   ```console
-   oc login -u ${OC_USERNAME} -p ${OC_PASSWORD} ${OC_URL}
-   ```
+    ```console
+    export MY_MINISHIFT_PROFILE_PARAMETER="--profile ${MY_MINISHIFT_PROFILE}"
+    ```
+
+1. Set path for `oc`.
+   Example:
+
+    ```console
+    eval "$(minishift oc-env)"
+    ```
+
+1. Choose context.
+   Example:
+
+    ```console
+    oc config use-context ${MY_MINISHIFT_PROFILE}
+    ```
+
+1. Login into OpenShift.
+   Example:
+
+    ```console
+    oc login -u system:admin
+    ```
 
 ### EULA
 
