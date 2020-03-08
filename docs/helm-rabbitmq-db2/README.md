@@ -111,23 +111,16 @@ This repository assumes a working knowledge of:
 
 ### Tiller
 
-** May not be needed. **
-
 1. FIXME: Enable tiller addon.
    Example:
 
     ```console
-    cd /tmp
-    git clone https://github.com/minishift/minishift-addons.git
-
-    minishift addons install /tmp/minishift-addons/add-ons/helm ${MY_MINISHIFT_PROFILE_PARAMETER}
-    minishift addons apply helm ${MY_MINISHIFT_PROFILE_PARAMETER}
-    minishift addons enable helm ${MY_MINISHIFT_PROFILE_PARAMETER}
-    ```
-
-    ```console
     kubectl --namespace kube-system create sa tiller
-    kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+
+    kubectl create clusterrolebinding tiller \
+      --clusterrole cluster-admin \
+      --serviceaccount=kube-system:tiller
+
     helm init --service-account tiller
     helm init --service-account tiller --upgrade
     ```
@@ -209,6 +202,8 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```console
     oc login -u system:admin
     ```
+
+    oc project
 
 ### EULA
 
@@ -336,6 +331,13 @@ Only one method needs to be performed.
     oc new-project ${DEMO_NAMESPACE} \
       --description="${OC_DESCRIPTION}" \
       --display-name="${OC_DISPLAY_NAME}"
+    ```
+
+1. XXXX
+   Example:
+
+    ```console
+    oc project ${DEMO_NAMESPACE}
     ```
 
 ### Create persistent volume
@@ -1107,6 +1109,7 @@ Feel free to submit a Pull Request for change.
     helm repo remove senzing
     oc delete -f ${KUBERNETES_DIR}/security-context-constraint-limited.yaml
     oc delete -f ${KUBERNETES_DIR}/security-context-constraint-runasany.yaml
+    oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-db2.yaml
     oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-senzing.yaml
     oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq.yaml
     ```
