@@ -385,33 +385,11 @@ Only one method needs to be performed.
 
     ```console
     oc new-project ${DEMO_NAMESPACE} \
-      --description=${OC_DESCRIPTION} \
-      --display-name=${OC_DISPLAY_NAME}
+      --description="${OC_DESCRIPTION}" \
+      --display-name="${OC_DISPLAY_NAME}"
     ```
 
 ### Create persistent volume
-
-:thinking:
-To create persistent volume claims (PVC) below,
-a persistent volume (PV) or storage class must first exist.
-If a persistent volume or a storage class already exists, proceed to
-[Create persistent volume claims](#create-persistent-volume-claims).
-
-There are many ways of creating a Persistent Volume.
-The following is an example of creating an NFS type Persistent Volume
-that can be referred to in a PVC by `spec.volumeName`.
-
-1. :pencil2: Review and modify, as needed, the contents of:
-    1. ${KUBERNETES_DIR}/persistent-volume-rabbitmq.yaml
-    1. ${KUBERNETES_DIR}/persistent-volume-senzing.yaml
-
-1. If needed, create persistent volumes.
-   Example:
-
-    ```console
-    oc create -f ${KUBERNETES_DIR}/persistent-volume-rabbitmq.yaml
-    oc create -f ${KUBERNETES_DIR}/persistent-volume-senzing.yaml
-    ```
 
 1. :thinking: **Optional:** Review persistent volumes and claims.
    Example:
@@ -423,38 +401,13 @@ that can be referred to in a PVC by `spec.volumeName`.
 
 ### Create persistent volume claims
 
-:thinking: There are multiple ways of creating a persistent volume claim (PVC).
-The following are examples of how to create a PVC
-with `spec.storageClassName` or `spec.volumeName`.
-Only one method of creating PVCs is needed.
+1. Create persistent volume claims.
+   Example:
 
-1. **Method #1** - Create persistent volume claims using `spec.storageClassName`.
-
-    1. Review and modify, as needed, the following files:
-        1. ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq-storageClassName.yaml
-        1. ${KUBERNETES_DIR}/persistent-volume-claim-senzing-storageClassName.yaml
-
-    1. Create PVCs.
-       Example:
-
-        ```console
-        oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq-storageClassName.yaml
-        oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-senzing-storageClassName.yaml
-        ```
-
-1. **Method #2** - Create persistent volume claims using `spec.volumeName`.
-
-    1. Review and modify, as needed, the following files:
-        1. ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq-volumeName.yaml
-        1. ${KUBERNETES_DIR}/persistent-volume-claim-senzing-volumeName.yaml
-
-    1. Create PVCs.
-       Example:
-
-        ```console
-        oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq-volumeName.yaml
-        oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-senzing-volumeName.yaml
-        ```
+    ```console
+    oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq.yaml
+    oc create -f ${KUBERNETES_DIR}/persistent-volume-claim-senzing.yaml
+    ```
 
 1. :thinking: **Optional:** Review persistent volumes and claims.
    Example:

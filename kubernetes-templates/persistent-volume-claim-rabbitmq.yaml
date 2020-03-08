@@ -8,5 +8,5 @@ spec:
   - ReadWriteMany
   resources:
     requests:
-      storage: 100Gi
-  volumeName: rabbitmq-persistent-volume
+      storage: 10Gi
+  volumeName: pv0001
