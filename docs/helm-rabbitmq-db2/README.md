@@ -116,8 +116,9 @@ This repository assumes a working knowledge of:
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
-1. Enable tiller addon.
-   FIXME:
+### Tiller
+
+1. FIXME: Enable tiller addon.
    Example:
 
     ```console
@@ -141,10 +142,7 @@ This repository assumes a working knowledge of:
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
 
-### Environment variables
-
-1. Set environment variables.
-   FIXME:
+1. FIXME: Set environment variables.
    Example:
 
     ```console
@@ -176,7 +174,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```
 
 1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
-
 
 ## Demonstrate
 
@@ -629,7 +626,6 @@ The init-container creates files from templates and initializes the G2 database.
       --values ${HELM_VALUES_DIR}/init-container-db2.yaml \
       senzing/senzing-init-container
     ```
-
 
 ### Get Senzing schema sql for Db2
 
