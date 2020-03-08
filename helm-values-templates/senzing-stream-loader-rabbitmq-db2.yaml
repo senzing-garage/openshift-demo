@@ -6,7 +6,7 @@ imagePullSecrets:
 
 rbacEnabled: true
 
-replicaCount: 10
+replicaCount: 1
 
 securityContext:
   enabled: true
