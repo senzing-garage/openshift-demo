@@ -130,7 +130,8 @@ This repository assumes a working knowledge of:
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
 
-1. FIXME: ** May not be needed. **
+1. FIXME:
+   **May not be needed.**
    Set environment variables.
    Example:
 
@@ -555,52 +556,6 @@ The mock data generator pulls JSON lines from a file and pushes them to RabbitMQ
       senzing/senzing-mock-data-generator
     ```
 
-### Install senzing-base Helm Chart
-
-This deployment provides a pod that is used to copy files to and from the Persistent Volume
-in later steps.
-
-1. Add Security Context Constraint.
-   Example:
-
-    ```console
-    oc adm policy add-scc-to-user \
-      senzing-security-context-constraint-runasany \
-      -z ${DEMO_PREFIX}-senzing-base
-    ```
-
-1. Install chart.
-   Example:
-
-    ```console
-    helm install \
-      --name ${DEMO_PREFIX}-senzing-base \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-base.yaml \
-       senzing/senzing-base
-    ```
-
-1. Find pod name.
-   Example:
-
-    ```console
-    export SENZING_BASE_POD_NAME=$(oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --output jsonpath="{.items[0].metadata.name}" \
-      --selector "app.kubernetes.io/name=senzing-base, \
-                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-base" \
-      )
-    ```
-
-1. Wait for pods to run.
-   Example:
-
-    ```console
-    oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --watch
-    ```
-
 ### Install init-container Helm chart
 
 The init-container creates files from templates and initializes the G2 database.
@@ -625,32 +580,6 @@ The init-container creates files from templates and initializes the G2 database.
       senzing/senzing-init-container
     ```
 
-### Install senzing-configurator Helm chart
-
-The Senzing Configurator is a micro-service for changing Senzing configuration.
-
-1. Add Security Context Constraint.
-   Example:
-
-    ```console
-    oc adm policy add-scc-to-user \
-      senzing-security-context-constraint-limited \
-      -z ${DEMO_PREFIX}-senzing-configurator
-    ```
-
-1. Install chart.
-   Example:
-
-    ```console
-    helm install \
-      --name ${DEMO_PREFIX}-senzing-configurator \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-configurator.yaml \
-      senzing/senzing-configurator
-    ```
-
-1. :thinking: **Optional:** To view Senzing Configurator, see [View Senzing Configurator](#view-senzing-configurator).
-
 ### Install senzing-stream-loader Helm chart
 
 The stream loader pulls messages from RabbitMQ and sends them to Senzing.
@@ -673,30 +602,6 @@ The stream loader pulls messages from RabbitMQ and sends them to Senzing.
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-stream-loader-rabbitmq.yaml \
       senzing/senzing-stream-loader
-    ```
-
-### Install senzing-redoer Helm chart
-
-The Senzing Redoer processes Senzing "redo" records.
-
-1. Add Security Context Constraint.
-   Example:
-
-    ```console
-    oc adm policy add-scc-to-user \
-      senzing-security-context-constraint-limited \
-      -z ${DEMO_PREFIX}-senzing-redoer
-    ```
-
-1. Install chart.
-   Example:
-
-    ```console
-    helm install \
-      --name ${DEMO_PREFIX}-senzing-redoer \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-redoer.yaml \
-      senzing/senzing-redoer
     ```
 
 ### Install senzing-api-server Helm chart
@@ -768,6 +673,107 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
     ```
 
 1. :thinking: **Optional:** To view Senzing Entity Search WebApp, see [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp).
+
+### Optional charts
+
+These charts are not necessary for the demonstration,
+but may be valuable in a production environment.
+
+#### Install senzing-base Helm Chart
+
+This deployment provides a pod that is used to copy files to and from the Persistent Volume
+in later steps.
+
+1. Add Security Context Constraint.
+   Example:
+
+    ```console
+    oc adm policy add-scc-to-user \
+      senzing-security-context-constraint-runasany \
+      -z ${DEMO_PREFIX}-senzing-base
+    ```
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-base \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${HELM_VALUES_DIR}/senzing-base.yaml \
+       senzing/senzing-base
+    ```
+
+1. Find pod name.
+   Example:
+
+    ```console
+    export SENZING_BASE_POD_NAME=$(oc get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --output jsonpath="{.items[0].metadata.name}" \
+      --selector "app.kubernetes.io/name=senzing-base, \
+                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-base" \
+      )
+    ```
+
+1. Wait for pods to run.
+   Example:
+
+    ```console
+    oc get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --watch
+    ```
+
+### Install senzing-redoer Helm chart
+
+The Senzing Redoer processes Senzing "redo" records.
+
+1. Add Security Context Constraint.
+   Example:
+
+    ```console
+    oc adm policy add-scc-to-user \
+      senzing-security-context-constraint-limited \
+      -z ${DEMO_PREFIX}-senzing-redoer
+    ```
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-redoer \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${HELM_VALUES_DIR}/senzing-redoer-db2.yaml \
+      senzing/senzing-redoer
+    ```
+
+#### Install senzing-configurator Helm chart
+
+The Senzing Configurator is a micro-service for changing Senzing configuration.
+
+1. Add Security Context Constraint.
+   Example:
+
+    ```console
+    oc adm policy add-scc-to-user \
+      senzing-security-context-constraint-limited \
+      -z ${DEMO_PREFIX}-senzing-configurator
+    ```
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-configurator \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${HELM_VALUES_DIR}/senzing-configurator-db2.yaml \
+      senzing/senzing-configurator
+    ```
+
+1. :thinking: **Optional:** To view Senzing Configurator, see [View Senzing Configurator](#view-senzing-configurator).
 
 ### View data
 

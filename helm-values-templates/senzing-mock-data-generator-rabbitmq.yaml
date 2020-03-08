@@ -18,6 +18,6 @@ senzing:
   rabbitmqPassword: passw0rd
   rabbitmqQueue: senzing-rabbitmq-queue
   rabbitmqUsername: user
-  recordMax: "1000000"
+  recordMax: "5000"
   recordMonitor: "1000"
   subcommand: url-to-rabbitmq
