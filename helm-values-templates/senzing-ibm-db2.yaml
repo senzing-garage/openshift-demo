@@ -8,6 +8,8 @@ image:
 imagePullSecrets:
   - name: ${DOCKER_REGISTRY_SECRET}
 
+rbacEnabled: true
+
 securityContext:
   enabled: true
   runAsUser: 0
