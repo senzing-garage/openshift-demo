@@ -242,13 +242,6 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
 
 ### Security context
 
-1. FIXME: Find acceptable UIDs for system.
-   Example:
-
-    ```console
-    oc ................
-    ```
-
 1. :pencil2: Environment variables for `securityContext` values.
    Example:
 
@@ -256,28 +249,6 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
     export SENZING_RUN_AS_USER=1001
     export SENZING_RUN_AS_GROUP=1001
     export SENZING_FS_GROUP=1001
-    ```
-
-### Database connection information
-
-1. Craft the `SENZING_DATABASE_URL`.
-
-    :pencil2: Set environment variables.  Example:
-
-    ```console
-    export DATABASE_USERNAME=johnsmith
-    export DATABASE_PASSWORD=secret
-    export DATABASE_HOST=my.database.com
-    export DATABASE_PORT=50000
-    export DATABASE_DATABASE=G2
-    ```
-
-    Construct database URL.  Example:
-
-    ```console
-    export SENZING_DATABASE_URL="db2://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DATABASE}"
-
-    echo ${SENZING_DATABASE_URL}
     ```
 
 ### Create custom helm values files
@@ -632,41 +603,30 @@ in later steps.
       --watch
     ```
 
-### Install Senzing license
+### Install init-container Helm chart
 
-:thinking: **Optional:**
-Senzing for IBM Cloud Pak for Data comes with a trial license that supports one million records.
-If this is sufficient, there is no need to install a new license
-and this step may be skipped.
+The init-container creates files from templates and initializes the G2 database.
 
-1. If working with more than one million records,
-   [obtain a Senzing license](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/obtain-senzing-license.md).
-
-1. Be sure the `senzing-base` Helm Chart has been installed and is running.
-   See "[Install senzing-base Helm Chart](#install-senzing-base-helm-chart)".
-
-1. Copy the `g2.lic` file to the `senzing-debug` pod
-   at `/opt/senzing/g2/data/g2.lic`.
-
-    :pencil2: Identify location of `g2.lic` on local workstation.
-    Example:
+1. Add Security Context Constraint.
+   Example:
 
     ```console
-    export G2_LICENSE_PATH=/path/to/local/g2.lic
+    oc adm policy add-scc-to-user \
+      senzing-security-context-constraint-runasany \
+      -z ${DEMO_PREFIX}-senzing-init-container
     ```
 
-    Copy file to debug pod.
-    Example:
+1. Install chart.
+   Example:
 
     ```console
-    oc cp \
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-init-container \
       --namespace ${DEMO_NAMESPACE} \
-      ${G2_LICENSE_PATH} \
-      ${DEMO_NAMESPACE}/${SENZING_BASE_POD_NAME}:/opt/senzing/senzing-etc/g2.lic
+      --values ${HELM_VALUES_DIR}/init-container-db2.yaml \
+      senzing/senzing-init-container
     ```
 
-1. Note: `/etc/opt/senzing` is attached as a Kubernetes Persistent Volume Claim (PVC),
-   so the license will be seen by all pods that attach to the PVC.
 
 ### Get Senzing schema sql for Db2
 
