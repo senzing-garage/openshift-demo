@@ -130,6 +130,13 @@ This repository assumes a working knowledge of:
     minishift addons enable helm ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
+    ```console
+    kubectl --namespace kube-system create sa tiller
+    kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+    helm init --service-account tiller
+    helm init --service-account tiller --upgrade
+    ```
+
 ### Helm
 
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
