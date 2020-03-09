@@ -151,6 +151,32 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ## Demonstrate
 
+### Environment variables
+
+1. Set environment variables listed in "[Clone repository](#clone-repository)".
+
+1. :pencil2: Environment variables that need customization.
+   Example:
+
+    ```console
+    export DEMO_PREFIX=my
+    export DEMO_NAMESPACE=${DEMO_PREFIX}-namespace
+
+    export DOCKER_REGISTRY_URL=docker.io
+    export DOCKER_REGISTRY_SECRET=${DOCKER_REGISTRY_URL}-secret
+    ```
+
+### Security context
+
+1. :pencil2: Environment variables for `securityContext` values.
+   Example:
+
+    ```console
+    export SENZING_RUN_AS_USER=1001
+    export SENZING_RUN_AS_GROUP=1001
+    export SENZING_FS_GROUP=1001
+    ```
+
 ### Log into OpenShift
 
 1. :pencil2: Set profile.
@@ -188,15 +214,14 @@ The Git repository has files that will be used in the `helm install --values` pa
     oc login -u system:admin
     ```
 
-    oc project
-
 ### Tiller
 
-1. FIXME: Enable tiller addon.
+1. Enable tiller addon.
    Example:
 
     ```console
-    kubectl --namespace kube-system create sa tiller
+    oc create serviceaccount tiller \
+      --namespace kube-system
 
     kubectl create clusterrolebinding tiller \
       --clusterrole cluster-admin \
@@ -215,32 +240,6 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
    Example:
 
     <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
-
-### Environment variables
-
-1. Set environment variables listed in "[Clone repository](#clone-repository)".
-
-1. :pencil2: Environment variables that need customization.
-   Example:
-
-    ```console
-    export DEMO_PREFIX=my
-    export DEMO_NAMESPACE=${DEMO_PREFIX}-namespace
-
-    export DOCKER_REGISTRY_URL=docker.io
-    export DOCKER_REGISTRY_SECRET=${DOCKER_REGISTRY_URL}-secret
-    ```
-
-### Security context
-
-1. :pencil2: Environment variables for `securityContext` values.
-   Example:
-
-    ```console
-    export SENZING_RUN_AS_USER=1001
-    export SENZING_RUN_AS_GROUP=1001
-    export SENZING_FS_GROUP=1001
-    ```
 
 ### Create custom helm values files
 
