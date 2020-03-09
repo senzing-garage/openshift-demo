@@ -26,29 +26,46 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Background knowledge](#background-knowledge)
 1. [Prerequisites](#prerequisites)
     1. [Prerequisite software](#prerequisite-software)
+    1. [minishift cluster](#minishift-cluster)
+    1. [Helm](#helm)
     1. [Clone repository](#clone-repository)
 1. [Demonstrate](#demonstrate)
-    1. [EULA](#eula)
     1. [Set environment variables](#set-environment-variables)
+    1. [EULA](#eula)
+    1. [Log into OpenShift](#log-into-openshift)
     1. [Create custom helm values files](#create-custom-helm-values-files)
     1. [Create custom kubernetes configuration files](#create-custom-kubernetes-configuration-files)
-    1. [Create namespace](#create-namespace)
+    1. [Create OpenShift project](#create-openshift-project)
     1. [Create persistent volume](#create-persistent-volume)
+    1. [Create persistent volume claims](#create-persistent-volume-claims)
+    1. [Create service context constraint](#create-service-context-constraint)
+    1. [Initialize Helm and Tiller](#initialize-helm-and-tiller)
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing RPM](#deploy-senzing-rpm)
     1. [Install IBM Db2 Driver](#install-ibm-db2-driver)
-    1. [Install senzing-debug Helm chart](#install-senzing-debug-helm-chart)
     1. [Install DB2 Helm chart](#install-db2-helm-chart)
     1. [Install RabbitMQ Helm chart](#install-rabbitmq-helm-chart)
-    1. [Install mock-data-generator Helm chart](#install-mock-data-generator-helm-chart)
+    1. [Install senzing-mock-data-generator Helm chart](#install-senzing-mock-data-generator-helm-chart)
     1. [Install init-container Helm chart](#install-init-container-helm-chart)
-    1. [Install stream-loader Helm chart](#install-stream-loader-helm-chart)
+    1. [Install senzing-stream-loader Helm chart](#install-senzing-stream-loader-helm-chart)
     1. [Install senzing-api-server Helm chart](#install-senzing-api-server-helm-chart)
     1. [Install senzing-entity-search-web-app Helm chart](#install-senzing-entity-search-web-app-helm-chart)
+    1. [Optional charts](#optional-charts)
+        1. [Install senzing-base Helm Chart](#install-senzing-base-helm-chart)
+        1. [Install senzing-redoer Helm chart](#install-senzing-redoer-helm-chart)
+        1. [Install senzing-configurator Helm chart](#install-senzing-configurator-helm-chart)
     1. [View data](#view-data)
+        1. [View RabbitMQ](#view-rabbitmq)
+        1. [View Senzing API Server](#view-senzing-api-server)
+        1. [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp)
+1. [Troubleshooting](#troubleshooting)
+    1. [Install senzing-debug Helm chart](#install-senzing-debug-helm-chart)
+    1. [Support](#support)
 1. [Cleanup](#cleanup)
     1. [Delete everything in project](#delete-everything-in-project)
     1. [Delete minishift cluster](#delete-minishift-cluster)
+    1. [Delete git repository](#delete-git-repository)
+1. [References](#references)
 
 ## Expectations
 
@@ -131,7 +148,7 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 ## Demonstrate
 
-### Environment variables
+### Set environment variables
 
 1. Set environment variables listed in "[Clone repository](#clone-repository)".
 
@@ -193,6 +210,16 @@ The Git repository has files that will be used in the `helm install --values` pa
     export OC_DISPLAY_NAME="My Senzing project"
     ```
 
+### EULA
+
+To use the Senzing code, you must agree to the End User License Agreement (EULA).
+
+1. :warning: This step is intentionally tricky and not simply copy/paste.
+   This ensures that you make a conscious effort to accept the EULA.
+   Example:
+
+    <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
+
 ### Log into OpenShift
 
 1. Set path for `oc`.
@@ -215,16 +242,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```console
     oc login -u system:admin
     ```
-
-### EULA
-
-To use the Senzing code, you must agree to the End User License Agreement (EULA).
-
-1. :warning: This step is intentionally tricky and not simply copy/paste.
-   This ensures that you make a conscious effort to accept the EULA.
-   Example:
-
-    <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
 
 ### Create custom helm values files
 
@@ -340,7 +357,7 @@ Minishift creates persistent volumes automatically.
       --namespace ${DEMO_NAMESPACE}
     ```
 
-### Create Service Context Constraint
+### Create service context constraint
 
 1. Create Security Constraint Context.
    Example:
@@ -358,7 +375,7 @@ Minishift creates persistent volumes automatically.
       --namespace ${DEMO_NAMESPACE}
     ```
 
-### Initialize Helm/Tiller
+### Initialize Helm and Tiller
 
 1. Enable tiller addon.
    Example:
@@ -892,28 +909,29 @@ Feel free to submit a Pull Request for change.
 1. Example:
 
     ```console
+    helm delete --purge ${DEMO_PREFIX}-senzing-debug
+    helm delete --purge ${DEMO_PREFIX}-senzing-configurator
+    helm delete --purge ${DEMO_PREFIX}-senzing-redoer
+    helm delete --purge ${DEMO_PREFIX}-senzing-base
     helm delete --purge ${DEMO_PREFIX}-senzing-entity-search-web-app
     helm delete --purge ${DEMO_PREFIX}-senzing-api-server
-    helm delete --purge ${DEMO_PREFIX}-senzing-redoer
     helm delete --purge ${DEMO_PREFIX}-senzing-stream-loader
-    helm delete --purge ${DEMO_PREFIX}-senzing-configurator
     helm delete --purge ${DEMO_PREFIX}-senzing-init-container
-    helm delete --purge ${DEMO_PREFIX}-senzing-base
+    helm delete --purge ${DEMO_PREFIX}-senzing-mock-data-generator
+    helm delete --purge ${DEMO_PREFIX}-rabbitmq
     helm delete --purge ${DEMO_PREFIX}-senzing-ibm-db2
     helm delete --purge ${DEMO_PREFIX}-ibm-db2-driver-installer
     helm delete --purge ${DEMO_PREFIX}-senzing-yum
-    helm delete --purge ${DEMO_PREFIX}-senzing-mock-data-generator
-    helm delete --purge ${DEMO_PREFIX}-rabbitmq
-    helm delete --purge ${DEMO_PREFIX}-senzing-debug
     helm repo remove senzing
     oc delete -f ${KUBERNETES_DIR}/security-context-constraint-limited.yaml
     oc delete -f ${KUBERNETES_DIR}/security-context-constraint-runasany.yaml
-    oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-db2.yaml
     oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-senzing.yaml
     oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-rabbitmq.yaml
+    oc delete -f ${KUBERNETES_DIR}/persistent-volume-claim-db2.yaml
+    oc delete project ${DEMO_NAMESPACE}
     ```
 
-### Delete minikube cluster
+### Delete minishift cluster
 
 1. Example:
 
