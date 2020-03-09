@@ -26,12 +26,13 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Background knowledge](#background-knowledge)
 1. [Prerequisites](#prerequisites)
     1. [Prerequisite software](#prerequisite-software)
-    1. [minishift cluster](#minishift-cluster)
+    1. [Minishift](#minishift)
     1. [Helm](#helm)
     1. [Clone repository](#clone-repository)
 1. [Demonstrate](#demonstrate)
     1. [Set environment variables](#set-environment-variables)
     1. [EULA](#eula)
+    1. [Create Openshift cluster](#create-openshift-cluster)
     1. [Log into OpenShift](#log-into-openshift)
     1. [Create custom helm values files](#create-custom-helm-values-files)
     1. [Create custom kubernetes configuration files](#create-custom-kubernetes-configuration-files)
@@ -155,6 +156,14 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DOCKER_REGISTRY_SECRET=${DOCKER_REGISTRY_URL}-secret
     ```
 
+1. :thinking: If using an insecure docker registry,
+   set the following environment variable.
+   Example:
+
+    ```console
+    export MINISHIFT_INSECURE_REGISTRY_PARAMETER="--insecure-registry ${DOCKER_REGISTRY_URL}"
+    ```
+
 1. :pencil2: Environment variables for `securityContext` values.
    Example:
 
@@ -209,6 +218,7 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
       --memory 10GB \
       --disk-size 150GB \
       --openshift-version v3.10.0 \
+      ${MINISHIFT_INSECURE_REGISTRY_PARAMETER} \
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
