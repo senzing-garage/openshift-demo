@@ -728,7 +728,7 @@ in later steps.
       --watch
     ```
 
-### Install senzing-redoer Helm chart
+#### Install senzing-redoer Helm chart
 
 The Senzing Redoer processes Senzing "redo" records.
 
