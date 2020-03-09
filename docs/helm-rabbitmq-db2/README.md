@@ -322,7 +322,7 @@ Only one method needs to be performed.
       --display-name="${OC_DISPLAY_NAME}"
     ```
 
-1. XXXX
+1. Switch to newly created project.
    Example:
 
     ```console
@@ -396,7 +396,7 @@ Minishift creates persistent volumes automatically.
     oc create serviceaccount tiller \
       --namespace kube-system
 
-    kubectl create clusterrolebinding tiller \
+    oc create clusterrolebinding tiller \
       --clusterrole cluster-admin \
       --serviceaccount=kube-system:tiller
 
