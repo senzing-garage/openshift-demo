@@ -52,20 +52,18 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Install senzing-api-server Helm chart](#install-senzing-api-server-helm-chart)
     1. [Install senzing-entity-search-web-app Helm chart](#install-senzing-entity-search-web-app-helm-chart)
     1. [Optional charts](#optional-charts)
-        1. [Install senzing-base Helm Chart](#install-senzing-base-helm-chart)
+        1. [Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)
         1. [Install senzing-redoer Helm chart](#install-senzing-redoer-helm-chart)
         1. [Install senzing-configurator Helm chart](#install-senzing-configurator-helm-chart)
     1. [View data](#view-data)
         1. [View RabbitMQ](#view-rabbitmq)
         1. [View Senzing API Server](#view-senzing-api-server)
         1. [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp)
-1. [Troubleshooting](#troubleshooting)
-    1. [Install senzing-debug Helm chart](#install-senzing-debug-helm-chart)
-    1. [Support](#support)
 1. [Cleanup](#cleanup)
     1. [Delete everything in project](#delete-everything-in-project)
     1. [Delete minishift cluster](#delete-minishift-cluster)
     1. [Delete git repository](#delete-git-repository)
+1. [Support](#support)
 1. [References](#references)
 
 ## Expectations
@@ -751,7 +749,7 @@ This deployment provides a pod that is used for debugging.
       )
     ```
 
-1. `ssh` into pod.
+1. Log into debug pod.
    Example:
 
     ```console
@@ -760,7 +758,7 @@ This deployment provides a pod that is used for debugging.
       --stdin \
       --namespace ${DEMO_NAMESPACE} \
       ${SENZING_DEBUG_POD_NAME} \
-      /bin/bash
+      -- /bin/bash
     ```
 
 #### Install senzing-redoer Helm chart
@@ -848,78 +846,6 @@ The server supports the
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
    for working with Senzing Entity Search WebApp.
 
-## Troubleshooting
-
-### Install senzing-debug Helm chart
-
-This deployment provides a pod that can be used to view Persistent Volumes
-and run Senzing utility programs.
-
-1. Add Security Context Constraint.
-   Example:
-
-    ```console
-    oc adm policy add-scc-to-user \
-      senzing-security-context-constraint-runasany \
-      -z ${DEMO_PREFIX}-senzing-debug
-    ```
-
-1. Install chart.
-   Example:
-
-    ```console
-    helm install \
-      --name ${DEMO_PREFIX}-senzing-debug \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-debug.yaml \
-       senzing/senzing-debug
-    ```
-
-1. Wait for pod to run.
-   Example:
-
-    ```console
-    oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --watch
-    ```
-
-1. Find pod name.
-   Example:
-
-    ```console
-    export SENZING_DEBUG_POD_NAME=$(oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --output jsonpath="{.items[0].metadata.name}" \
-      --selector "app.kubernetes.io/name=senzing-debug, \
-                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-debug" \
-      )
-    ```
-
-1. Log into debug pod.
-   Example:
-
-    ```console
-    oc exec -it --namespace ${DEMO_NAMESPACE} ${SENZING_DEBUG_POD_NAME} -- /bin/bash
-    ```
-
-### Support
-
-Additional information:
-
-1. [Helm Charts](https://github.com/Senzing/awesome#helm-charts)
-1. [Docker images on Docker Hub](https://github.com/Senzing/awesome#dockerhub)
-1. [Dockerfiles](https://github.com/Senzing/awesome#dockerfiles)
-
-If the instructions don't address an issue you are seeing, please "submit a request" so we can help you.
-
-1. [Submit a request](https://senzing.zendesk.com/hc/en-us/requests/new)
-1. Email: [support@senzing.com](mailto:support@senzing.com)
-1. [Report an issue on GitHub](https://github.com/Senzing/ibm-openshift-guide/issues)
-
-This repository is a community project.
-Feel free to submit a Pull Request for change.
-
 ## Cleanup
 
 ### Delete everything in project
@@ -966,8 +892,23 @@ Feel free to submit a Pull Request for change.
     sudo rm -rf ${GIT_REPOSITORY_DIR}
     ```
 
+## Support
+
+If the instructions don't address an issue you are seeing, please "submit a request" so we can help you.
+Here are 3 ways to request:
+
+1. [Report an issue on GitHub](https://github.com/Senzing/ibm-openshift-guide/issues)
+1. [Submit a request](https://senzing.zendesk.com/hc/en-us/requests/new)
+1. Email: [support@senzing.com](mailto:support@senzing.com)
+
+This repository is a community project.
+Feel free to submit a Pull Request for change.
+
 ## References
 
+1. [Helm Charts](https://github.com/Senzing/awesome#helm-charts)
+1. [Docker images on Docker Hub](https://github.com/Senzing/awesome#dockerhub)
+1. [Dockerfiles](https://github.com/Senzing/awesome#dockerfiles)
 1. [OKD](https://docs.okd.io/)
     1. [minishift](https://docs.okd.io/latest/minishift/index.html)
         1. [Minishift basic usage](https://docs.okd.io/latest/minishift/using/basic-usage.html)
