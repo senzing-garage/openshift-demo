@@ -154,7 +154,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DOCKER_REGISTRY_SECRET=${DOCKER_REGISTRY_URL}-secret
     ```
 
-1. :thinking: If using an insecure docker registry,
+1. :thinking: **Optional:** If using an insecure docker registry,
    set the following environment variable.
    Example:
 
@@ -408,8 +408,7 @@ Minishift creates persistent volumes automatically.
     helm repo update
     ```
 
-1. :thinking: **Optional:**
-   Review repositories.
+1. :thinking: **Optional:** Review repositories.
    Example:
 
     ```console
