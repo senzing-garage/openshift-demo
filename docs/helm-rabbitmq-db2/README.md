@@ -594,6 +594,15 @@ The init-container creates files from templates and initializes the G2 database.
       senzing/senzing-init-container
     ```
 
+1. Wait for pods to run.
+   Example:
+
+    ```console
+    oc get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --watch
+    ```
+
 ### Install senzing-stream-loader Helm chart
 
 The stream loader pulls messages from RabbitMQ and sends them to Senzing.
