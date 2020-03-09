@@ -109,22 +109,6 @@ This repository assumes a working knowledge of:
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
 
-### Tiller
-
-1. FIXME: Enable tiller addon.
-   Example:
-
-    ```console
-    kubectl --namespace kube-system create sa tiller
-
-    kubectl create clusterrolebinding tiller \
-      --clusterrole cluster-admin \
-      --serviceaccount=kube-system:tiller
-
-    helm init --service-account tiller
-    helm init --service-account tiller --upgrade
-    ```
-
 ### Helm
 
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
@@ -205,6 +189,22 @@ The Git repository has files that will be used in the `helm install --values` pa
     ```
 
     oc project
+
+### Tiller
+
+1. FIXME: Enable tiller addon.
+   Example:
+
+    ```console
+    kubectl --namespace kube-system create sa tiller
+
+    kubectl create clusterrolebinding tiller \
+      --clusterrole cluster-admin \
+      --serviceaccount=kube-system:tiller
+
+    helm init --service-account tiller
+    helm init --service-account tiller --upgrade
+    ```
 
 ### EULA
 
