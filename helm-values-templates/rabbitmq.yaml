@@ -1,0 +1,27 @@
+image:
+  registry: ${DOCKER_REGISTRY_URL}
+  tag: 3.8.2-debian-9-r0
+
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+
+ingress:
+  enabled: true
+  hostName: rabbitmq.local
+
+persistence:
+  enabled: true
+  existingClaim: rabbitmq-persistent-volume-claim
+
+rabbitmq:
+  password: passw0rd
+  username: user
+
+securityContext:
+  enabled: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  fsGroup: 1001
+
+volumePermissions:
+  enabled: true

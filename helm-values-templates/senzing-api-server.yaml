@@ -1,0 +1,27 @@
+image:
+  registry: ${DOCKER_REGISTRY_URL}
+
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+
+ingress:
+  enabled: true
+  hosts:
+    - host: senzing-api.local
+      paths:
+        - /
+
+rbacEnabled: true
+
+securityContext:
+  enabled: true
+  runAsUser: ${SENZING_RUN_AS_USER}
+  runAsGroup: ${SENZING_RUN_AS_GROUP}
+  fsGroup: ${SENZING_FS_GROUP}
+
+senzing:
+  allowedOrigins: "*"
+  bindAddr: all
+  concurrency: 8
+  iniFile: /etc/opt/senzing/G2Module.ini
+  persistentVolumeClaim: senzing-persistent-volume-claim

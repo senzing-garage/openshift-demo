@@ -1,0 +1,23 @@
+image:
+  registry: ${DOCKER_REGISTRY_URL}
+
+imagePullSecrets:
+  - name: ${DOCKER_REGISTRY_SECRET}
+
+rbacEnabled: true
+
+securityContext:
+  enabled: true
+  runAsUser: ${SENZING_RUN_AS_USER}
+  runAsGroup: ${SENZING_RUN_AS_GROUP}
+  fsGroup: ${SENZING_FS_GROUP}
+
+senzing:
+  inputUrl: "https://s3.amazonaws.com/public-read-access/TestDataSets/loadtest-dataset-1M.json"
+  rabbitmqHost: ${DEMO_PREFIX}-rabbitmq
+  rabbitmqPassword: passw0rd
+  rabbitmqQueue: senzing-rabbitmq-queue
+  rabbitmqUsername: user
+  recordMax: "5000"
+  recordMonitor: "1000"
+  subcommand: url-to-rabbitmq
