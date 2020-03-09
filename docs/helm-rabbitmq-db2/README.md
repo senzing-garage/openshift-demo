@@ -783,108 +783,37 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
 1. Username and password for the following sites are the values seen in the corresponding "values" YAML file located in
    [helm-values-templates](../../helm-values-templates).
 
-#### Update hosts file
-
-The `/etc/hosts` file needs to be updated with a line like:
-
-```console
-10.10.10.10 rabbitmq.local senzing-api.local senzing-configurator.local senzing-entity-search.local
-```
-
-:thinking:  Instead of `10.10.10.10`, the real IP address needs to be found.
-There are 2 methods to find the IP address.
-
-1. **Method #1:** Ping the "infra node".
-   Example:
-
-    1. Determine the IP address of the OpenShift "infra" node.
-       Example:
-
-        ```console
-        export SENZING_INFRA_NODE=$(oc get nodes \
-          --output jsonpath="{.items[0].metadata.name}" \
-          --selector "node-role.kubernetes.io/infra=true" \
-        )
-        ping ${SENZING_INFRA_NODE}
-        ```
-
-    1. From out output of the `ping` command, the IP address can be found.
-
-1. **Method #2:** Extract the IP Address.
-   Example:
-
-    1. Query the IP address directly.
-       Example:
-
-        ```console
-        export SENZING_INFRA_NODE_IP_ADDRESS=$(oc get nodes \
-          --output jsonpath="{.items[0].status.addresses[0].address}" \
-          --selector "node-role.kubernetes.io/infra=true" \
-        )
-        echo ${SENZING_INFRA_NODE_IP_ADDRESS}
-        ```
-
-1. :pencil2: Into the `/etc/hosts` file, append a line like the following example, replacing `10.10.10.10` with the infra node IP address.
-
-    ```console
-    10.10.10.10 rabbitmq.local senzing-api.local senzing-configurator.local senzing-entity-search.local
-    ```
-
 #### View RabbitMQ
 
-1. If not already done, [update hosts file](#update-hosts-file).
-1. RabbitMQ will be viewable at [rabbitmq.local](http://rabbitmq.local).
-    1. Login
-        1. See [helm-values/rabbitmq.yaml](../../helm-values/rabbitmq.yaml) for Username and password.
-        1. Default: user/passw0rd (seen in [helm-values-templates/rabbitmq.yaml](../../helm-values-templates/rabbitmq.yaml))
+1. RabbitMQ is viewable at
+   [localhost:15672](http://localhost:15672).
+    1. **Defaults:** username: `user` password: `passw0rd`
+1. See
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#rabbitmq)
+   for working with RabbitMQ.
 
-#### View Senzing Configurator
-
-1. If not already done, [update hosts file](#update-hosts-file).
-1. Senzing Configurator will be viewable at [senzing-configurator.local/datasources](http://senzing-configurator.local/datasources).
-1. Make HTTP calls via `curl`.
-   Example:
-
-    ```console
-    export SENZING_CONFIGURATOR_SERVICE=http://senzing-configurator.local
-
-    curl -X GET ${SENZING_CONFIGURATOR_SERVICE}/datasources
-    curl -X POST \
-      --data '[ "TEST", "TEST1", "TEST2", "TEST3"]' \
-      --header 'Content-type: application/json;charset=utf-8' \
-      ${SENZING_CONFIGURATOR_SERVICE}/datasources
-    ```
 
 #### View Senzing API Server
 
-1. If not already done, [update hosts file](#update-hosts-file).
-1. View results from Senzing REST API server.
-   The server supports the
-   [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
-   1. From a web browser.
-      Examples:
-      1. [senzing-api.local/heartbeat](http://senzing-api.local/heartbeat)
-      1. [senzing-api.local/license](http://senzing-api.local/license)
-      1. [senzing-api.local/entities/1](http://senzing-api.local/entities/1)
-   1. From `curl`.
-      Examples:
+View results from Senzing REST API server.
+The server supports the
+[Senzing REST API](https://github.com/Senzing/senzing-rest-api).
 
-        ```console
-        export SENZING_API_SERVICE=http://senzing-api.local
-
-        curl -X GET ${SENZING_API_SERVICE}/heartbeat
-        curl -X GET ${SENZING_API_SERVICE}/license
-        curl -X GET ${SENZING_API_SERVICE}/entities/1
-        ```
-
-   1. From [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api/master/senzing-rest-api.yaml).
+1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api/master/senzing-rest-api.yaml).
+1. Example Senzing REST API request:
+   [localhost:8250/heartbeat](http://localhost:8250/heartbeat)
+1. See
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-api-server)
+   for working with Senzing API server.
 
 #### View Senzing Entity Search WebApp
 
-1. If not already done, [update hosts file](#update-hosts-file).
-1. Senzing Entity Search WebApp will be viewable at [senzing-entity-search.local](http://senzing-entity-search.local).
-   The [demonstration](https://github.com/Senzing/knowledge-base/blob/master/demonstrations/docker-compose-web-app.md)
-   instructions will give a tour of the Senzing web app.
+1. Senzing Entity Search WebApp is viewable at
+   [localhost:8251](http://localhost:8251).
+1. See
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
+   for working with Senzing Entity Search WebApp.
+
 
 ## Troubleshooting
 
