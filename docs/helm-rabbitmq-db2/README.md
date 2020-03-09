@@ -114,26 +114,6 @@ This repository assumes a working knowledge of:
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
 
-1. FIXME:
-   **May not be needed.**
-   Set environment variables.
-   Example:
-
-    ```console
-    eval "$(minishift oc-env)"
-
-    export TILLER_HOST="$(minishift ip):$(oc get svc/tiller \
-      -o jsonpath='{.spec.ports[0].nodePort}' \
-      -n kube-system --as=system:admin)"
-
-    export HELM_HOST="$(minishift ip):$(oc get svc/tiller \
-      -o jsonpath='{.spec.ports[0].nodePort}' \
-      -n kube-system --as=system:admin)"
-
-    export MINISHIFT_ADMIN_CONTEXT="default/$(oc config view \
-      -o jsonpath='{.contexts[?(@.name=="minishift")].context.cluster}')/system:admin"
-    ```
-
 ### Clone repository
 
 The Git repository has files that will be used in the `helm install --values` parameter.
@@ -378,16 +358,7 @@ Minishift creates persistent volumes automatically.
       --namespace ${DEMO_NAMESPACE}
     ```
 
-### Initialize Helm
-
-1. FIXME: May not need. Connect Helm to MiniShift.
-   Example:
-
-    ```console
-    helm init
-    ```
-
-### Tiller
+### Initialize Helm/Tiller
 
 1. Enable tiller addon.
    Example:
@@ -625,6 +596,15 @@ The stream loader pulls messages from RabbitMQ and sends them to Senzing.
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-stream-loader-rabbitmq-db2.yaml \
       senzing/senzing-stream-loader
+    ```
+
+1. Wait for pods to run.
+   Example:
+
+    ```console
+    oc get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --watch
     ```
 
 ### Install senzing-api-server Helm chart
