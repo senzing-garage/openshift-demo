@@ -229,18 +229,18 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
     eval "$(minishift oc-env)"
     ```
 
-1. Login into OpenShift.
-   Example:
-
-    ```console
-    oc login -u system:admin
-    ```
-
 1. Choose context.
    Example:
 
     ```console
     oc config use-context ${MY_MINISHIFT_PROFILE}
+    ```
+
+1. Login into OpenShift.
+   Example:
+
+    ```console
+    oc login -u system:admin
     ```
 
 ### Create custom helm values files
