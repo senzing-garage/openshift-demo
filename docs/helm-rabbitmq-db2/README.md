@@ -478,6 +478,15 @@ This deployment adds the IBM Db2 Client driver code to the Persistent Volume.
       senzing/ibm-db2-driver-installer
     ```
 
+1. Wait for pods to run.
+   Example:
+
+    ```console
+    oc get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --watch
+    ```
+
 ### Install Db2 Helm chart
 
 This step starts IBM Db2 database and populates the database with the Senzing schema.
@@ -500,6 +509,15 @@ This step starts IBM Db2 database and populates the database with the Senzing sc
       --namespace ${DEMO_NAMESPACE} \
       --values ${HELM_VALUES_DIR}/senzing-ibm-db2.yaml \
       senzing/senzing-ibm-db2
+    ```
+
+1. Wait for pods to run.
+   Example:
+
+    ```console
+    oc get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --watch
     ```
 
 ### Install RabbitMQ Helm chart
