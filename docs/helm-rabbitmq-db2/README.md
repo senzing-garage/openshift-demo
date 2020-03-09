@@ -511,15 +511,6 @@ This step starts IBM Db2 database and populates the database with the Senzing sc
       senzing/senzing-ibm-db2
     ```
 
-1. Wait for pods to run.
-   Example:
-
-    ```console
-    oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --watch
-    ```
-
 ### Install RabbitMQ Helm chart
 
 This deployment creates a RabbitMQ service.
