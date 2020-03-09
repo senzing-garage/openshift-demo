@@ -792,7 +792,6 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#rabbitmq)
    for working with RabbitMQ.
 
-
 #### View Senzing API Server
 
 View results from Senzing REST API server.
@@ -813,7 +812,6 @@ The server supports the
 1. See
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
    for working with Senzing Entity Search WebApp.
-
 
 ## Troubleshooting
 
