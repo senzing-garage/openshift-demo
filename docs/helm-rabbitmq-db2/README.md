@@ -155,6 +155,28 @@ The Git repository has files that will be used in the `helm install --values` pa
 
 1. Set environment variables listed in "[Clone repository](#clone-repository)".
 
+    ```console
+    export GIT_ACCOUNT=senzing
+    export GIT_REPOSITORY=openshift-demo
+    export GIT_ACCOUNT_DIR=~/${GIT_ACCOUNT}.git
+    export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
+    ```
+
+1. Set environment variables listed in "[minishift cluster](#minishift-cluster)".
+    1. :pencil2: Set profile.
+       Example:
+
+        ```console
+        export MY_MINISHIFT_PROFILE=minishift
+        ```
+
+    1. Set profile parameter.
+       Example:
+
+        ```console
+        export MY_MINISHIFT_PROFILE_PARAMETER="--profile ${MY_MINISHIFT_PROFILE}"
+        ```
+
 1. :pencil2: Environment variables that need customization.
    Example:
 
@@ -166,8 +188,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     export DOCKER_REGISTRY_SECRET=${DOCKER_REGISTRY_URL}-secret
     ```
 
-### Security context
-
 1. :pencil2: Environment variables for `securityContext` values.
    Example:
 
@@ -177,21 +197,23 @@ The Git repository has files that will be used in the `helm install --values` pa
     export SENZING_FS_GROUP=1001
     ```
 
+1. Directories.
+   Example:
+
+    ```console
+    export HELM_VALUES_DIR=${GIT_REPOSITORY_DIR}/helm-values
+    export KUBERNETES_DIR=${GIT_REPOSITORY_DIR}/kubernetes
+    ```
+
+1. :pencil2: `oc` project metadata.
+   Example:
+
+    ```console
+    export OC_DESCRIPTION="My Senzing description..."
+    export OC_DISPLAY_NAME="My Senzing project"
+    ```
+
 ### Log into OpenShift
-
-1. :pencil2: Set profile.
-   Example:
-
-    ```console
-    export MY_MINISHIFT_PROFILE=minishift
-    ```
-
-1. Set profile parameter.
-   Example:
-
-    ```console
-    export MY_MINISHIFT_PROFILE_PARAMETER="--profile ${MY_MINISHIFT_PROFILE}"
-    ```
 
 1. Set path for `oc`.
    Example:
@@ -214,23 +236,6 @@ The Git repository has files that will be used in the `helm install --values` pa
     oc login -u system:admin
     ```
 
-### Tiller
-
-1. Enable tiller addon.
-   Example:
-
-    ```console
-    oc create serviceaccount tiller \
-      --namespace kube-system
-
-    kubectl create clusterrolebinding tiller \
-      --clusterrole cluster-admin \
-      --serviceaccount=kube-system:tiller
-
-    helm init --service-account tiller
-    helm init --service-account tiller --upgrade
-    ```
-
 ### EULA
 
 To use the Senzing code, you must agree to the End User License Agreement (EULA).
@@ -251,9 +256,7 @@ Only one method needs to be performed.
    Example:
 
     ```console
-    export HELM_VALUES_DIR=${GIT_REPOSITORY_DIR}/helm-values
     mkdir -p ${HELM_VALUES_DIR}
-
     for file in ${GIT_REPOSITORY_DIR}/helm-values-templates/*.yaml; \
     do \
       envsubst < "${file}" > "${HELM_VALUES_DIR}/$(basename ${file})";
@@ -264,9 +267,7 @@ Only one method needs to be performed.
    Example:
 
     ```console
-    export HELM_VALUES_DIR=${GIT_REPOSITORY_DIR}/helm-values
     mkdir -p ${HELM_VALUES_DIR}
-
     cp ${GIT_REPOSITORY_DIR}/helm-values-templates/* ${HELM_VALUES_DIR}
     ```
 
@@ -291,9 +292,7 @@ Only one method needs to be performed.
    Example:
 
     ```console
-    export KUBERNETES_DIR=${GIT_REPOSITORY_DIR}/kubernetes
     mkdir -p ${KUBERNETES_DIR}
-
     for file in ${GIT_REPOSITORY_DIR}/kubernetes-templates/*; \
     do \
       envsubst < "${file}" > "${KUBERNETES_DIR}/$(basename ${file})";
@@ -304,9 +303,7 @@ Only one method needs to be performed.
    Example:
 
     ```console
-    export KUBERNETES_DIR=${GIT_REPOSITORY_DIR}/kubernetes
     mkdir -p ${KUBERNETES_DIR}
-
     cp ${GIT_REPOSITORY_DIR}/kubernetes-templates/* ${KUBERNETES_DIR}
     ```
 
@@ -315,14 +312,6 @@ Only one method needs to be performed.
     1. `${DEMO_NAMESPACE}`
 
 ### Create OpenShift project
-
-1. :pencil2: Set environment variables.
-   Example:
-
-    ```console
-    export OC_DESCRIPTION="My description..."
-    export OC_DISPLAY_NAME="My Senzing project"
-    ```
 
 1. Create project.
    Example:
@@ -391,11 +380,28 @@ Minishift creates persistent volumes automatically.
 
 ### Initialize Helm
 
-1. Connect Helm to MiniShift.
+1. FIXME: May not need. Connect Helm to MiniShift.
    Example:
 
     ```console
     helm init
+    ```
+
+### Tiller
+
+1. Enable tiller addon.
+   Example:
+
+    ```console
+    oc create serviceaccount tiller \
+      --namespace kube-system
+
+    kubectl create clusterrolebinding tiller \
+      --clusterrole cluster-admin \
+      --serviceaccount=kube-system:tiller
+
+    helm init --service-account tiller
+    helm init --service-account tiller --upgrade
     ```
 
 ### Add helm repositories
