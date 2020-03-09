@@ -89,47 +89,17 @@ This repository assumes a working knowledge of:
 
 ### Prerequisite software
 
-### minishift cluster
+### Minishift
 
 1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
-1. :pencil2: Set profile.
-   Example:
-
-    ```console
-    export MY_MINISHIFT_PROFILE=minishift
-    ```
-
-1. Set profile parameter.
-   Example:
-
-    ```console
-    export MY_MINISHIFT_PROFILE_PARAMETER="--profile ${MY_MINISHIFT_PROFILE}"
-    ```
-
-1. Enable addons.
-   Example:
-
-    ```console
-    minishift addons install --defaults ${MY_MINISHIFT_PROFILE_PARAMETER}
-    minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
-    ```
-
-1. Start cluster.
-   Example:
-
-    ```console
-    minishift start \
-      --cpus 4 \
-      --memory 10GB \
-      --disk-size 150GB \
-      --openshift-version v3.10.0 \
-      ${MY_MINISHIFT_PROFILE_PARAMETER}
-    ```
+    1. Instructions tested with minishift version 1.34.2.
 
 ### Helm
 
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
+    1. Instructions are written for Helm version 2.x.
+       The instructions do not work with Helm version 3.x.
 
 ### Clone repository
 
@@ -159,7 +129,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
 
-1. Set environment variables listed in "[minishift cluster](#minishift-cluster)".
+1. Set environment variables for minishift.
     1. :pencil2: Set profile.
        Example:
 
@@ -219,6 +189,28 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
    Example:
 
     <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
+
+### Create Openshift cluster
+
+1. Enable addons.
+   Example:
+
+    ```console
+    minishift addons install --defaults ${MY_MINISHIFT_PROFILE_PARAMETER}
+    minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
+    ```
+
+1. Start cluster.
+   Example:
+
+    ```console
+    minishift start \
+      --cpus 4 \
+      --memory 10GB \
+      --disk-size 150GB \
+      --openshift-version v3.10.0 \
+      ${MY_MINISHIFT_PROFILE_PARAMETER}
+    ```
 
 ### Log into OpenShift
 
