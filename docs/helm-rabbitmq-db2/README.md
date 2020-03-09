@@ -44,8 +44,8 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing RPM](#deploy-senzing-rpm)
     1. [Install IBM Db2 Driver](#install-ibm-db2-driver)
-    1. [Install DB2 Helm chart](#install-db2-helm-chart)
     1. [Install RabbitMQ Helm chart](#install-rabbitmq-helm-chart)
+    1. [Install DB2 Helm chart](#install-db2-helm-chart)
     1. [Install senzing-mock-data-generator Helm chart](#install-senzing-mock-data-generator-helm-chart)
     1. [Install init-container Helm chart](#install-init-container-helm-chart)
     1. [Install senzing-stream-loader Helm chart](#install-senzing-stream-loader-helm-chart)
@@ -477,30 +477,6 @@ This deployment adds the IBM Db2 Client driver code to the Persistent Volume.
       --watch
     ```
 
-### Install Db2 Helm chart
-
-This step starts IBM Db2 database and populates the database with the Senzing schema.
-
-1. Add Security Context Constraint.
-   Example:
-
-    ```console
-    oc adm policy add-scc-to-user \
-      senzing-security-context-constraint-runasany \
-      -z ${DEMO_PREFIX}-senzing-ibm-db2
-    ```
-
-1. Install chart.
-   Example:
-
-    ```console
-    helm install \
-      --name ${DEMO_PREFIX}-senzing-ibm-db2 \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-ibm-db2.yaml \
-      senzing/senzing-ibm-db2
-    ```
-
 ### Install RabbitMQ Helm chart
 
 This deployment creates a RabbitMQ service.
@@ -525,6 +501,32 @@ This deployment creates a RabbitMQ service.
       stable/rabbitmq
     ```
 
+1. :thinking: **Optional:** To view RabbitMQ, see [View RabbitMQ](#view-rabbitmq)
+
+### Install Db2 Helm chart
+
+This step starts IBM Db2 database and populates the database with the Senzing schema.
+
+1. Add Security Context Constraint.
+   Example:
+
+    ```console
+    oc adm policy add-scc-to-user \
+      senzing-security-context-constraint-runasany \
+      -z ${DEMO_PREFIX}-senzing-ibm-db2
+    ```
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-ibm-db2 \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${HELM_VALUES_DIR}/senzing-ibm-db2.yaml \
+      senzing/senzing-ibm-db2
+    ```
+
 1. Wait for pods to run.
    Example:
 
@@ -534,7 +536,19 @@ This deployment creates a RabbitMQ service.
       --watch
     ```
 
-1. :thinking: **Optional:** To view RabbitMQ, see [View RabbitMQ](#view-rabbitmq)
+1. Wait for Db2 schema creation to complete.
+   Example:
+
+    ```console
+    export DB2_POD_NAME=$(oc get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --output jsonpath="{.items[0].metadata.name}" \
+      --selector "app.kubernetes.io/name=senzing-ibm-db2, \
+                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-ibm-db2" \
+    )
+
+    oc logs --namespace ${DEMO_NAMESPACE} ${DB2_POD_NAME}
+    ```
 
 ### Install senzing-mock-data-generator Helm chart
 
