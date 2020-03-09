@@ -715,10 +715,9 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
 These charts are not necessary for the demonstration,
 but may be valuable in a production environment.
 
-#### Install senzing-base Helm Chart
+#### Install senzing-debug Helm Chart
 
-This deployment provides a pod that is used to copy files to and from the Persistent Volume
-in later steps.
+This deployment provides a pod that is used for debugging.
 
 1. Add Security Context Constraint.
    Example:
@@ -726,7 +725,7 @@ in later steps.
     ```console
     oc adm policy add-scc-to-user \
       senzing-security-context-constraint-runasany \
-      -z ${DEMO_PREFIX}-senzing-base
+      -z ${DEMO_PREFIX}-senzing-debug
     ```
 
 1. Install chart.
@@ -734,31 +733,34 @@ in later steps.
 
     ```console
     helm install \
-      --name ${DEMO_PREFIX}-senzing-base \
+      --name ${DEMO_PREFIX}-senzing-debug \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-base.yaml \
-       senzing/senzing-base
+      --values ${HELM_VALUES_DIR}/senzing-debug.yaml \
+       senzing/senzing-debug
     ```
 
 1. Find pod name.
    Example:
 
     ```console
-    export SENZING_BASE_POD_NAME=$(oc get pods \
+    export SENZING_DEBUG_POD_NAME=$(oc get pods \
       --namespace ${DEMO_NAMESPACE} \
       --output jsonpath="{.items[0].metadata.name}" \
-      --selector "app.kubernetes.io/name=senzing-base, \
-                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-base" \
+      --selector "app.kubernetes.io/name=senzing-debug, \
+                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-debug" \
       )
     ```
 
-1. Wait for pods to run.
+1. `ssh` into pod.
    Example:
 
     ```console
-    oc get pods \
+    oc exec \
+      --tty \
+      --stdin \
       --namespace ${DEMO_NAMESPACE} \
-      --watch
+      ${SENZING_DEBUG_POD_NAME} \
+      /bin/bash
     ```
 
 #### Install senzing-redoer Helm chart
