@@ -824,6 +824,8 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
 #### View OpenShift console
 
 1. Launch OpenShift in default browser.
+   Username: `admin`
+   Password: `system`
    Example:
 
     ```console
