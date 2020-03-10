@@ -898,8 +898,8 @@ If the chart has been deployed, it can be viewed.
 
 ## Cleanup
 
-1. :warning: Because cleanup involves deleting object based on environment variables,
-   be sure the environment variables are set.
+1. :warning: Because cleanup involves deleting objects based on environment variables,
+   be sure the variables are set correctly.
    Example:
 
     ```console
