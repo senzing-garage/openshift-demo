@@ -979,7 +979,7 @@ Restore contents to the original.
    Example:
 
     ```console
-    sudo cp rm /etc/hosts.${ETC_HOSTS_TIMESTAMP}
+    sudo rm /etc/hosts.${ETC_HOSTS_TIMESTAMP}
     ```
 
 ### Delete git repository
