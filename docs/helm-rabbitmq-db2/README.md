@@ -976,7 +976,7 @@ Restore contents to the original.
     sudo cp /etc/hosts.${ETC_HOSTS_TIMESTAMP}  /etc/hosts
     ```
 
-1. :warning: Remove backup `/etc/hosts.ttttttt` file.
+1. Remove backup `/etc/hosts.ttttttt` file.
    Example:
 
     ```console
@@ -985,7 +985,7 @@ Restore contents to the original.
 
 ### Delete git repository
 
-1. :warning: Delete git repository.  Example:
+1. Delete git repository.  Example:
 
     ```console
     sudo rm -rf ${GIT_REPOSITORY_DIR}
