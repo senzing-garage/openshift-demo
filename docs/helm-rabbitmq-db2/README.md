@@ -550,7 +550,10 @@ This step starts IBM Db2 database and populates the database with the Senzing sc
                   app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-ibm-db2" \
     )
 
-    oc logs --namespace ${DEMO_NAMESPACE} ${DB2_POD_NAME}
+    oc logs \
+      --follow \
+      --namespace ${DEMO_NAMESPACE} \
+      ${DB2_POD_NAME}
     ```
 
 ### Install senzing-mock-data-generator Helm chart
