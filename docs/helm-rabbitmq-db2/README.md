@@ -817,6 +817,22 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
 1. Username and password for the following sites are the values seen in the corresponding "values" YAML file located in
    [helm-values-templates](../../helm-values-templates).
 
+#### View OpenShift console
+
+1. Launch default browser.
+   Example:
+
+    ```console
+    minishift console
+    ```
+
+1. :thinking: **Alternative:**  Locate OpenShift console URL.
+   Example:
+
+    ```console
+    minishift console --url
+    ```
+
 #### Modify hosts file
 
 1. Backup `/etc/hosts`
@@ -834,24 +850,9 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
     | sudo tee -a /etc/hosts
     ```
 
-#### View OpenShift console
-
-1. Launch default browser.
-   Example:
-
-    ```console
-    minishift console
-    ```
-
-1. :thinking: **Alternative:**  Locate OpenShift console URL.
-   Example:
-
-    ```console
-    minishift console --url
-    ```
-
 #### View RabbitMQ
 
+1. If not done previously, [modify hosts file](#modify-hosts-file)
 1. RabbitMQ is viewable at
    [http://rabbitmq.local](http://rabbitmq.local).
     1. **Defaults:** username: `user` password: `passw0rd`
@@ -865,6 +866,7 @@ View results from Senzing REST API server.
 The server supports the
 [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
 
+1. If not done previously, [modify hosts file](#modify-hosts-file)
 1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api/master/senzing-rest-api.yaml).
     1. In **Servers**, choose `http://senzing-api.local`
 1. Example Senzing REST API request:
@@ -875,6 +877,7 @@ The server supports the
 
 #### View Senzing Entity Search WebApp
 
+1. If not done previously, [modify hosts file](#modify-hosts-file)
 1. Senzing Entity Search WebApp is viewable at
    [http://senzing-entity-search.local](http://senzing-entity-search.local).
 1. See
@@ -886,6 +889,7 @@ The server supports the
 :thinking: "Senzing Configuration" is an [optional chart](#install-senzing-configurator-helm-chart).
 If the chart has been deployed, it can be viewed.
 
+1. If not done previously, [modify hosts file](#modify-hosts-file)
 1. Senzing Configurator is viewable at
    [http://senzing-configurator.local/datasources](http://senzing-configurator.local/datasources).
 1. See
