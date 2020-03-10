@@ -637,15 +637,6 @@ The stream loader pulls messages from RabbitMQ and sends them to Senzing.
       senzing/senzing-stream-loader
     ```
 
-1. Wait for pods to run.
-   Example:
-
-    ```console
-    oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --watch
-    ```
-
 ### Install senzing-api-server Helm chart
 
 The Senzing API server receives HTTP requests to read and modify Senzing data.
