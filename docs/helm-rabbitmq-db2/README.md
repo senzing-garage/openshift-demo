@@ -197,7 +197,7 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
 
     <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
 
-### Create Openshift cluster
+### Create OpenShift cluster
 
 1. Enable addons.
    Example:
@@ -219,6 +219,8 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
       ${MINISHIFT_INSECURE_REGISTRY_PARAMETER} \
       ${MY_MINISHIFT_PROFILE_PARAMETER}
     ```
+
+1. :thinking: **Optional:** To view OpenShift console, see [View OpenShift console](#view-openshift-console)
 
 ### Log into OpenShift
 
@@ -832,7 +834,7 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
     | sudo tee -a /etc/hosts
     ```
 
-#### View Openshift console
+#### View OpenShift console
 
 1. Launch default browser.
    Example:
