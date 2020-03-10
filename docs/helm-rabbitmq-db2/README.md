@@ -815,7 +815,7 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
 1. Username and password for the following sites are the values seen in the corresponding "values" YAML file located in
    [helm-values-templates](../../helm-values-templates).
 
-#### View data preparation
+#### Modify hosts file
 
 1. Backup `/etc/hosts`
    Example:
@@ -900,7 +900,6 @@ If the chart has been deployed, it can be viewed.
     helm delete --purge ${DEMO_PREFIX}-senzing-debug
     helm delete --purge ${DEMO_PREFIX}-senzing-configurator
     helm delete --purge ${DEMO_PREFIX}-senzing-redoer
-    helm delete --purge ${DEMO_PREFIX}-senzing-base
     helm delete --purge ${DEMO_PREFIX}-senzing-entity-search-web-app
     helm delete --purge ${DEMO_PREFIX}-senzing-api-server
     helm delete --purge ${DEMO_PREFIX}-senzing-stream-loader
@@ -926,6 +925,38 @@ If the chart has been deployed, it can be viewed.
     ```console
     minishift stop
     minishift delete --force --clear-cache
+    ```
+
+### Restore hosts file
+
+In the [Modify hosts file](#modify-hosts-file) step,
+the `/etc/hosts` file was modified.
+Restore contents to the original.
+
+1. Find the original version of the file.
+   Example:
+
+    ```console
+    $ ls -la /etc | grep hosts
+
+    -rw-r--r--   1 root    root       351 Mar 10 13:57 hosts
+    -rw-r--r--   1 root    root       248 Mar 10 13:56 hosts.1583862997
+    -rw-r--r--   1 root    root       411 Feb  9  2019 hosts.allow
+    -rw-r--r--   1 root    root       711 Feb  9  2019 hosts.deny
+    ```
+
+1. :pencil2: Identify the timestamp of the original `/etc/hosts`.
+   Example:
+
+    ```console
+    export ETC_HOSTS_TIMESTAMP=1583862997
+    ```
+
+1. Copy the original version back to `/etc/hosts.
+   Example:
+
+    ```console
+    sudo cp /etc/hosts.${ETC_HOSTS_TIMESTAMP}  /etc/hosts
     ```
 
 ### Delete git repository
