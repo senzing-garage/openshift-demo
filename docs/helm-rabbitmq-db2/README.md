@@ -504,7 +504,7 @@ This deployment creates a RabbitMQ service.
       stable/rabbitmq
     ```
 
-1. :thinking: **Optional:** To view RabbitMQ, see [View RabbitMQ](#view-rabbitmq)
+1. :thinking: **Optional:** To view RabbitMQ once it is running, see [View RabbitMQ](#view-rabbitmq)
 
 ### Install Db2 Helm chart
 
@@ -676,7 +676,7 @@ The Senzing API server receives HTTP requests to read and modify Senzing data.
       --watch
     ```
 
-1. :thinking: **Optional:** To view Senzing API server, see [View Senzing API Server](#view-senzing-api-server).
+1. :thinking: **Optional:** To view Senzing API server once it is running, see [View Senzing API Server](#view-senzing-api-server).
 
 ### Install senzing-entity-search-web-app Helm chart
 
@@ -711,7 +711,7 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
       --watch
     ```
 
-1. :thinking: **Optional:** To view Senzing Entity Search WebApp, see [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp).
+1. :thinking: **Optional:** To view Senzing Entity Search WebApp once it is running, see [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp).
 
 ### Optional charts
 
@@ -814,7 +814,7 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
       senzing/senzing-configurator
     ```
 
-1. :thinking: **Optional:** To view Senzing Configurator, see [View Senzing Configurator](#view-senzing-configurator).
+1. :thinking: **Optional:** To view Senzing Configurator once it is running, see [View Senzing Configurator](#view-senzing-configurator).
 
 ### View data
 
