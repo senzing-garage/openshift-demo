@@ -465,7 +465,7 @@ This deployment adds the IBM Db2 Client driver code to the Persistent Volume.
       senzing/ibm-db2-driver-installer
     ```
 
-1. Wait for pods to run.
+1. Wait for pods to complete.
    Example:
 
     ```console
@@ -745,7 +745,7 @@ This deployment provides a pod that is used for debugging.
       --output jsonpath="{.items[0].metadata.name}" \
       --selector "app.kubernetes.io/name=senzing-debug, \
                   app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-debug" \
-      )
+    )
     ```
 
 1. Log into debug pod.
@@ -814,6 +814,23 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
 
 1. Username and password for the following sites are the values seen in the corresponding "values" YAML file located in
    [helm-values-templates](../../helm-values-templates).
+
+#### View data preparation
+
+1. Backup `/etc/hosts`
+   Example:
+
+    ```console
+    sudo cp /etc/hosts /etc/hosts/$(date +%s)
+    ```
+
+1. Append line to `/etc/hosts`.
+   Example:
+
+    ```console
+    echo "$(minishift ip) rabbitmq.local senzing-entity-search.local senzing-api.local senzing-configurator.local" \
+    | sudo tee -a /etc/hosts
+    ```
 
 #### View RabbitMQ
 
