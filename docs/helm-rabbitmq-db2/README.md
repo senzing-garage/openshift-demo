@@ -898,6 +898,17 @@ If the chart has been deployed, it can be viewed.
 
 ## Cleanup
 
+1. :warning: Because cleanup involves deleting object based on environment variables,
+   be sure the environment variables are set.
+   Example:
+
+    ```console
+    echo ${DEMO_PREFIX}
+    echo ${DEMO_NAMESPACE}
+    echo ${GIT_REPOSITORY_DIR}
+    echo ${KUBERNETES_DIR}
+    ```
+
 ### Delete everything in project
 
 1. Example:
@@ -958,16 +969,23 @@ Restore contents to the original.
     export ETC_HOSTS_TIMESTAMP=1583862997
     ```
 
-1. Copy the original version back to `/etc/hosts.
+1. Copy the original version back to `/etc/hosts`.
    Example:
 
     ```console
     sudo cp /etc/hosts.${ETC_HOSTS_TIMESTAMP}  /etc/hosts
     ```
 
+1. :warning: Remove backup `/etc/hosts.ttttttt` file.
+   Example:
+
+    ```console
+    sudo cp rm /etc/hosts.${ETC_HOSTS_TIMESTAMP}
+    ```
+
 ### Delete git repository
 
-1. Delete git repository.  Example:
+1. :warning: Delete git repository.  Example:
 
     ```console
     sudo rm -rf ${GIT_REPOSITORY_DIR}
