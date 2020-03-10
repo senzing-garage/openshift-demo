@@ -821,7 +821,7 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
    Example:
 
     ```console
-    sudo cp /etc/hosts /etc/hosts/$(date +%s)
+    sudo cp /etc/hosts /etc/hosts.$(date +%s)
     ```
 
 1. Append line to `/etc/hosts`.
