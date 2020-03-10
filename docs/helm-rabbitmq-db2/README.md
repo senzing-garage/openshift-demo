@@ -32,7 +32,7 @@ The following diagram shows the relationship of the Helm charts, docker containe
 1. [Demonstrate](#demonstrate)
     1. [Set environment variables](#set-environment-variables)
     1. [EULA](#eula)
-    1. [Create Openshift cluster](#create-openshift-cluster)
+    1. [Create OpenShift cluster](#create-openshift-cluster)
     1. [Log into OpenShift](#log-into-openshift)
     1. [Create custom helm values files](#create-custom-helm-values-files)
     1. [Create custom kubernetes configuration files](#create-custom-kubernetes-configuration-files)
@@ -56,12 +56,16 @@ The following diagram shows the relationship of the Helm charts, docker containe
         1. [Install senzing-redoer Helm chart](#install-senzing-redoer-helm-chart)
         1. [Install senzing-configurator Helm chart](#install-senzing-configurator-helm-chart)
     1. [View data](#view-data)
+        1. [View OpenShift console](#view-openshift-console)
+        1. [Modify hosts file](#modify-hosts-file)
         1. [View RabbitMQ](#view-rabbitmq)
         1. [View Senzing API Server](#view-senzing-api-server)
         1. [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp)
+        1. [View Senzing Configurator](#view-senzing-configurator)
 1. [Cleanup](#cleanup)
     1. [Delete everything in project](#delete-everything-in-project)
     1. [Delete minishift cluster](#delete-minishift-cluster)
+    1. [Restore hosts file](#restore-hosts-file)
     1. [Delete git repository](#delete-git-repository)
 1. [Support](#support)
 1. [References](#references)
@@ -81,7 +85,7 @@ Budget 4 hours to get the demonstration up-and-running, depending on CPU and net
 This repository assumes a working knowledge of:
 
 1. [Docker](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/docker.md)
-1. [Openshift](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/openshift.md)
+1. [OpenShift](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/openshift.md)
 1. [Helm](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/helm.md)
 
 ## Prerequisites
