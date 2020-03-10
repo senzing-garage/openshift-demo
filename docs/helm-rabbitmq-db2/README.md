@@ -832,10 +832,26 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
     | sudo tee -a /etc/hosts
     ```
 
+#### View Openshift console
+
+1. Launch default browser.
+   Example:
+
+    ```console
+    minishift console
+    ```
+
+1. :thinking: **Alternative:**  Locate OpenShift console URL.
+   Example:
+
+    ```console
+    minishift console --url
+    ```
+
 #### View RabbitMQ
 
 1. RabbitMQ is viewable at
-   [localhost:15672](http://localhost:15672).
+   [http://rabbitmq.local](http://rabbitmq.local).
     1. **Defaults:** username: `user` password: `passw0rd`
 1. See
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#rabbitmq)
@@ -849,7 +865,7 @@ The server supports the
 
 1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api/master/senzing-rest-api.yaml).
 1. Example Senzing REST API request:
-   [localhost:8250/heartbeat](http://localhost:8250/heartbeat)
+   [http://senzing-api.local//heartbeat](http://senzing-api.local/heartbeat)
 1. See
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-api-server)
    for working with Senzing API server.
@@ -857,7 +873,7 @@ The server supports the
 #### View Senzing Entity Search WebApp
 
 1. Senzing Entity Search WebApp is viewable at
-   [localhost:8251](http://localhost:8251).
+   [http://senzing-entity-search.local](http://senzing-entity-search.local).
 1. See
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
    for working with Senzing Entity Search WebApp.
