@@ -26,12 +26,13 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Background knowledge](#background-knowledge)
 1. [Prerequisites](#prerequisites)
     1. [Prerequisite software](#prerequisite-software)
-    1. [minishift cluster](#minishift-cluster)
+    1. [Minishift](#minishift)
     1. [Helm](#helm)
     1. [Clone repository](#clone-repository)
 1. [Demonstrate](#demonstrate)
     1. [Set environment variables](#set-environment-variables)
     1. [EULA](#eula)
+    1. [Create OpenShift cluster](#create-openshift-cluster)
     1. [Log into OpenShift](#log-into-openshift)
     1. [Create custom helm values files](#create-custom-helm-values-files)
     1. [Create custom kubernetes configuration files](#create-custom-kubernetes-configuration-files)
@@ -43,28 +44,30 @@ The following diagram shows the relationship of the Helm charts, docker containe
     1. [Add helm repositories](#add-helm-repositories)
     1. [Deploy Senzing RPM](#deploy-senzing-rpm)
     1. [Install IBM Db2 Driver](#install-ibm-db2-driver)
-    1. [Install DB2 Helm chart](#install-db2-helm-chart)
     1. [Install RabbitMQ Helm chart](#install-rabbitmq-helm-chart)
+    1. [Install DB2 Helm chart](#install-db2-helm-chart)
     1. [Install senzing-mock-data-generator Helm chart](#install-senzing-mock-data-generator-helm-chart)
     1. [Install init-container Helm chart](#install-init-container-helm-chart)
     1. [Install senzing-stream-loader Helm chart](#install-senzing-stream-loader-helm-chart)
     1. [Install senzing-api-server Helm chart](#install-senzing-api-server-helm-chart)
     1. [Install senzing-entity-search-web-app Helm chart](#install-senzing-entity-search-web-app-helm-chart)
     1. [Optional charts](#optional-charts)
-        1. [Install senzing-base Helm Chart](#install-senzing-base-helm-chart)
+        1. [Install senzing-debug Helm Chart](#install-senzing-debug-helm-chart)
         1. [Install senzing-redoer Helm chart](#install-senzing-redoer-helm-chart)
         1. [Install senzing-configurator Helm chart](#install-senzing-configurator-helm-chart)
     1. [View data](#view-data)
+        1. [View OpenShift console](#view-openshift-console)
+        1. [Modify hosts file](#modify-hosts-file)
         1. [View RabbitMQ](#view-rabbitmq)
         1. [View Senzing API Server](#view-senzing-api-server)
         1. [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp)
-1. [Troubleshooting](#troubleshooting)
-    1. [Install senzing-debug Helm chart](#install-senzing-debug-helm-chart)
-    1. [Support](#support)
+        1. [View Senzing Configurator](#view-senzing-configurator)
 1. [Cleanup](#cleanup)
     1. [Delete everything in project](#delete-everything-in-project)
     1. [Delete minishift cluster](#delete-minishift-cluster)
+    1. [Restore hosts file](#restore-hosts-file)
     1. [Delete git repository](#delete-git-repository)
+1. [Support](#support)
 1. [References](#references)
 
 ## Expectations
@@ -82,54 +85,24 @@ Budget 4 hours to get the demonstration up-and-running, depending on CPU and net
 This repository assumes a working knowledge of:
 
 1. [Docker](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/docker.md)
-1. [Openshift](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/openshift.md)
+1. [OpenShift](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/openshift.md)
 1. [Helm](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/helm.md)
 
 ## Prerequisites
 
 ### Prerequisite software
 
-### minishift cluster
+### Minishift
 
 1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
-1. :pencil2: Set profile.
-   Example:
-
-    ```console
-    export MY_MINISHIFT_PROFILE=minishift
-    ```
-
-1. Set profile parameter.
-   Example:
-
-    ```console
-    export MY_MINISHIFT_PROFILE_PARAMETER="--profile ${MY_MINISHIFT_PROFILE}"
-    ```
-
-1. Enable addons.
-   Example:
-
-    ```console
-    minishift addons install --defaults ${MY_MINISHIFT_PROFILE_PARAMETER}
-    minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
-    ```
-
-1. Start cluster.
-   Example:
-
-    ```console
-    minishift start \
-      --cpus 4 \
-      --memory 10GB \
-      --disk-size 150GB \
-      --openshift-version v3.10.0 \
-      ${MY_MINISHIFT_PROFILE_PARAMETER}
-    ```
+    1. Instructions tested with minishift version 1.34.2.
 
 ### Helm
 
 1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
    on workstation.
+    1. Instructions are written for Helm version 2.x.
+       The instructions do not work with Helm version 3.x.
 
 ### Clone repository
 
@@ -159,7 +132,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
 
-1. Set environment variables listed in "[minishift cluster](#minishift-cluster)".
+1. Set environment variables for minishift.
     1. :pencil2: Set profile.
        Example:
 
@@ -183,6 +156,14 @@ The Git repository has files that will be used in the `helm install --values` pa
 
     export DOCKER_REGISTRY_URL=docker.io
     export DOCKER_REGISTRY_SECRET=${DOCKER_REGISTRY_URL}-secret
+    ```
+
+1. :thinking: **Optional:** If using an insecure docker registry,
+   set the following environment variable.
+   Example:
+
+    ```console
+    export MINISHIFT_INSECURE_REGISTRY_PARAMETER="--insecure-registry ${DOCKER_REGISTRY_URL}"
     ```
 
 1. :pencil2: Environment variables for `securityContext` values.
@@ -219,6 +200,31 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
    Example:
 
     <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
+
+### Create OpenShift cluster
+
+1. Enable addons.
+   Example:
+
+    ```console
+    minishift addons install --defaults ${MY_MINISHIFT_PROFILE_PARAMETER}
+    minishift addons enable admin-user ${MY_MINISHIFT_PROFILE_PARAMETER}
+    ```
+
+1. Start cluster.
+   Example:
+
+    ```console
+    minishift start \
+      --cpus 4 \
+      --memory 10GB \
+      --disk-size 150GB \
+      --openshift-version v3.10.0 \
+      ${MINISHIFT_INSECURE_REGISTRY_PARAMETER} \
+      ${MY_MINISHIFT_PROFILE_PARAMETER}
+    ```
+
+1. :thinking: **Optional:** To view OpenShift console, see [View OpenShift console](#view-openshift-console)
 
 ### Log into OpenShift
 
@@ -408,8 +414,7 @@ Minishift creates persistent volumes automatically.
     helm repo update
     ```
 
-1. :thinking: **Optional:**
-   Review repositories.
+1. :thinking: **Optional:** Review repositories.
    Example:
 
     ```console
@@ -466,37 +471,13 @@ This deployment adds the IBM Db2 Client driver code to the Persistent Volume.
       senzing/ibm-db2-driver-installer
     ```
 
-1. Wait for pods to run.
+1. Wait for pods to complete.
    Example:
 
     ```console
     oc get pods \
       --namespace ${DEMO_NAMESPACE} \
       --watch
-    ```
-
-### Install Db2 Helm chart
-
-This step starts IBM Db2 database and populates the database with the Senzing schema.
-
-1. Add Security Context Constraint.
-   Example:
-
-    ```console
-    oc adm policy add-scc-to-user \
-      senzing-security-context-constraint-runasany \
-      -z ${DEMO_PREFIX}-senzing-ibm-db2
-    ```
-
-1. Install chart.
-   Example:
-
-    ```console
-    helm install \
-      --name ${DEMO_PREFIX}-senzing-ibm-db2 \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-ibm-db2.yaml \
-      senzing/senzing-ibm-db2
     ```
 
 ### Install RabbitMQ Helm chart
@@ -523,6 +504,32 @@ This deployment creates a RabbitMQ service.
       stable/rabbitmq
     ```
 
+1. :thinking: **Optional:** To view RabbitMQ once it is running, see [View RabbitMQ](#view-rabbitmq)
+
+### Install Db2 Helm chart
+
+This step starts IBM Db2 database and populates the database with the Senzing schema.
+
+1. Add Security Context Constraint.
+   Example:
+
+    ```console
+    oc adm policy add-scc-to-user \
+      senzing-security-context-constraint-runasany \
+      -z ${DEMO_PREFIX}-senzing-ibm-db2
+    ```
+
+1. Install chart.
+   Example:
+
+    ```console
+    helm install \
+      --name ${DEMO_PREFIX}-senzing-ibm-db2 \
+      --namespace ${DEMO_NAMESPACE} \
+      --values ${HELM_VALUES_DIR}/senzing-ibm-db2.yaml \
+      senzing/senzing-ibm-db2
+    ```
+
 1. Wait for pods to run.
    Example:
 
@@ -532,7 +539,22 @@ This deployment creates a RabbitMQ service.
       --watch
     ```
 
-1. :thinking: **Optional:** To view RabbitMQ, see [View RabbitMQ](#view-rabbitmq)
+1. Wait for Db2 schema creation to complete.
+   Example:
+
+    ```console
+    export DB2_POD_NAME=$(oc get pods \
+      --namespace ${DEMO_NAMESPACE} \
+      --output jsonpath="{.items[0].metadata.name}" \
+      --selector "app.kubernetes.io/name=senzing-ibm-db2, \
+                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-ibm-db2" \
+    )
+
+    oc logs \
+      --follow \
+      --namespace ${DEMO_NAMESPACE} \
+      ${DB2_POD_NAME}
+    ```
 
 ### Install senzing-mock-data-generator Helm chart
 
@@ -615,15 +637,6 @@ The stream loader pulls messages from RabbitMQ and sends them to Senzing.
       senzing/senzing-stream-loader
     ```
 
-1. Wait for pods to run.
-   Example:
-
-    ```console
-    oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --watch
-    ```
-
 ### Install senzing-api-server Helm chart
 
 The Senzing API server receives HTTP requests to read and modify Senzing data.
@@ -657,7 +670,7 @@ The Senzing API server receives HTTP requests to read and modify Senzing data.
       --watch
     ```
 
-1. :thinking: **Optional:** To view Senzing API server, see [View Senzing API Server](#view-senzing-api-server).
+1. :thinking: **Optional:** To view Senzing API server once it is running, see [View Senzing API Server](#view-senzing-api-server).
 
 ### Install senzing-entity-search-web-app Helm chart
 
@@ -692,17 +705,16 @@ The Senzing Entity Search WebApp is a light-weight WebApp demonstrating Senzing 
       --watch
     ```
 
-1. :thinking: **Optional:** To view Senzing Entity Search WebApp, see [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp).
+1. :thinking: **Optional:** To view Senzing Entity Search WebApp once it is running, see [View Senzing Entity Search WebApp](#view-senzing-entity-search-webapp).
 
 ### Optional charts
 
 These charts are not necessary for the demonstration,
 but may be valuable in a production environment.
 
-#### Install senzing-base Helm Chart
+#### Install senzing-debug Helm Chart
 
-This deployment provides a pod that is used to copy files to and from the Persistent Volume
-in later steps.
+This deployment provides a pod that is used for debugging.
 
 1. Add Security Context Constraint.
    Example:
@@ -710,7 +722,7 @@ in later steps.
     ```console
     oc adm policy add-scc-to-user \
       senzing-security-context-constraint-runasany \
-      -z ${DEMO_PREFIX}-senzing-base
+      -z ${DEMO_PREFIX}-senzing-debug
     ```
 
 1. Install chart.
@@ -718,31 +730,34 @@ in later steps.
 
     ```console
     helm install \
-      --name ${DEMO_PREFIX}-senzing-base \
+      --name ${DEMO_PREFIX}-senzing-debug \
       --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-base.yaml \
-       senzing/senzing-base
+      --values ${HELM_VALUES_DIR}/senzing-debug.yaml \
+       senzing/senzing-debug
     ```
 
 1. Find pod name.
    Example:
 
     ```console
-    export SENZING_BASE_POD_NAME=$(oc get pods \
+    export SENZING_DEBUG_POD_NAME=$(oc get pods \
       --namespace ${DEMO_NAMESPACE} \
       --output jsonpath="{.items[0].metadata.name}" \
-      --selector "app.kubernetes.io/name=senzing-base, \
-                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-base" \
-      )
+      --selector "app.kubernetes.io/name=senzing-debug, \
+                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-debug" \
+    )
     ```
 
-1. Wait for pods to run.
+1. Log into debug pod.
    Example:
 
     ```console
-    oc get pods \
+    oc exec \
+      --tty \
+      --stdin \
       --namespace ${DEMO_NAMESPACE} \
-      --watch
+      ${SENZING_DEBUG_POD_NAME} \
+      -- /bin/bash
     ```
 
 #### Install senzing-redoer Helm chart
@@ -793,17 +808,52 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
       senzing/senzing-configurator
     ```
 
-1. :thinking: **Optional:** To view Senzing Configurator, see [View Senzing Configurator](#view-senzing-configurator).
+1. :thinking: **Optional:** To view Senzing Configurator once it is running, see [View Senzing Configurator](#view-senzing-configurator).
 
 ### View data
 
 1. Username and password for the following sites are the values seen in the corresponding "values" YAML file located in
    [helm-values-templates](../../helm-values-templates).
 
+#### View OpenShift console
+
+1. Launch OpenShift in default browser.
+   Example:
+
+    ```console
+    minishift console
+    ```
+
+    1. Username: `admin` Password: `system`
+1. :thinking: **Alternative:**  Locate OpenShift console URL.
+   Example:
+
+    ```console
+    minishift console --url
+    ```
+
+#### Modify hosts file
+
+1. Backup `/etc/hosts`
+   Example:
+
+    ```console
+    sudo cp /etc/hosts /etc/hosts.$(date +%s)
+    ```
+
+1. Append line to `/etc/hosts`.
+   Example:
+
+    ```console
+    echo "$(minishift ip) rabbitmq.local senzing-entity-search.local senzing-api.local senzing-configurator.local" \
+    | sudo tee -a /etc/hosts
+    ```
+
 #### View RabbitMQ
 
+1. If not done previously, [modify hosts file](#modify-hosts-file)
 1. RabbitMQ is viewable at
-   [localhost:15672](http://localhost:15672).
+   [http://rabbitmq.local](http://rabbitmq.local).
     1. **Defaults:** username: `user` password: `passw0rd`
 1. See
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#rabbitmq)
@@ -815,94 +865,48 @@ View results from Senzing REST API server.
 The server supports the
 [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
 
+1. If not done previously, [modify hosts file](#modify-hosts-file)
 1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api/master/senzing-rest-api.yaml).
+    1. In **Servers**, choose `http://senzing-api.local`
 1. Example Senzing REST API request:
-   [localhost:8250/heartbeat](http://localhost:8250/heartbeat)
+   [http://senzing-api.local//heartbeat](http://senzing-api.local/heartbeat)
 1. See
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-api-server)
    for working with Senzing API server.
 
 #### View Senzing Entity Search WebApp
 
+1. If not done previously, [modify hosts file](#modify-hosts-file)
 1. Senzing Entity Search WebApp is viewable at
-   [localhost:8251](http://localhost:8251).
+   [http://senzing-entity-search.local](http://senzing-entity-search.local).
 1. See
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
    for working with Senzing Entity Search WebApp.
 
-## Troubleshooting
+#### View Senzing Configurator
 
-### Install senzing-debug Helm chart
+:thinking: "Senzing Configuration" is an [optional chart](#install-senzing-configurator-helm-chart).
+If the chart has been deployed, it can be viewed.
 
-This deployment provides a pod that can be used to view Persistent Volumes
-and run Senzing utility programs.
-
-1. Add Security Context Constraint.
-   Example:
-
-    ```console
-    oc adm policy add-scc-to-user \
-      senzing-security-context-constraint-runasany \
-      -z ${DEMO_PREFIX}-senzing-debug
-    ```
-
-1. Install chart.
-   Example:
-
-    ```console
-    helm install \
-      --name ${DEMO_PREFIX}-senzing-debug \
-      --namespace ${DEMO_NAMESPACE} \
-      --values ${HELM_VALUES_DIR}/senzing-debug.yaml \
-       senzing/senzing-debug
-    ```
-
-1. Wait for pod to run.
-   Example:
-
-    ```console
-    oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --watch
-    ```
-
-1. Find pod name.
-   Example:
-
-    ```console
-    export SENZING_DEBUG_POD_NAME=$(oc get pods \
-      --namespace ${DEMO_NAMESPACE} \
-      --output jsonpath="{.items[0].metadata.name}" \
-      --selector "app.kubernetes.io/name=senzing-debug, \
-                  app.kubernetes.io/instance=${DEMO_PREFIX}-senzing-debug" \
-      )
-    ```
-
-1. Log into debug pod.
-   Example:
-
-    ```console
-    oc exec -it --namespace ${DEMO_NAMESPACE} ${SENZING_DEBUG_POD_NAME} -- /bin/bash
-    ```
-
-### Support
-
-Additional information:
-
-1. [Helm Charts](https://github.com/Senzing/awesome#helm-charts)
-1. [Docker images on Docker Hub](https://github.com/Senzing/awesome#dockerhub)
-1. [Dockerfiles](https://github.com/Senzing/awesome#dockerfiles)
-
-If the instructions don't address an issue you are seeing, please "submit a request" so we can help you.
-
-1. [Submit a request](https://senzing.zendesk.com/hc/en-us/requests/new)
-1. Email: [support@senzing.com](mailto:support@senzing.com)
-1. [Report an issue on GitHub](https://github.com/Senzing/ibm-openshift-guide/issues)
-
-This repository is a community project.
-Feel free to submit a Pull Request for change.
+1. If not done previously, [modify hosts file](#modify-hosts-file)
+1. Senzing Configurator is viewable at
+   [http://senzing-configurator.local/datasources](http://senzing-configurator.local/datasources).
+1. See
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-configurator)
+   for working with Senzing Configurator.
 
 ## Cleanup
+
+1. :warning: Because cleanup involves deleting objects based on environment variables,
+   be sure the variables are set correctly.
+   Example:
+
+    ```console
+    echo ${DEMO_PREFIX}
+    echo ${DEMO_NAMESPACE}
+    echo ${GIT_REPOSITORY_DIR}
+    echo ${KUBERNETES_DIR}
+    ```
 
 ### Delete everything in project
 
@@ -912,7 +916,6 @@ Feel free to submit a Pull Request for change.
     helm delete --purge ${DEMO_PREFIX}-senzing-debug
     helm delete --purge ${DEMO_PREFIX}-senzing-configurator
     helm delete --purge ${DEMO_PREFIX}-senzing-redoer
-    helm delete --purge ${DEMO_PREFIX}-senzing-base
     helm delete --purge ${DEMO_PREFIX}-senzing-entity-search-web-app
     helm delete --purge ${DEMO_PREFIX}-senzing-api-server
     helm delete --purge ${DEMO_PREFIX}-senzing-stream-loader
@@ -940,6 +943,45 @@ Feel free to submit a Pull Request for change.
     minishift delete --force --clear-cache
     ```
 
+### Restore hosts file
+
+In the [Modify hosts file](#modify-hosts-file) step,
+the `/etc/hosts` file was modified.
+Restore contents to the original.
+
+1. Find the original version of the file.
+   Example:
+
+    ```console
+    $ ls -la /etc | grep hosts
+
+    -rw-r--r--   1 root    root       351 Mar 10 13:57 hosts
+    -rw-r--r--   1 root    root       248 Mar 10 13:56 hosts.1583862997
+    -rw-r--r--   1 root    root       411 Feb  9  2019 hosts.allow
+    -rw-r--r--   1 root    root       711 Feb  9  2019 hosts.deny
+    ```
+
+1. :pencil2: Identify the timestamp of the original `/etc/hosts`.
+   Example:
+
+    ```console
+    export ETC_HOSTS_TIMESTAMP=1583862997
+    ```
+
+1. Copy the original version back to `/etc/hosts`.
+   Example:
+
+    ```console
+    sudo cp /etc/hosts.${ETC_HOSTS_TIMESTAMP}  /etc/hosts
+    ```
+
+1. Remove backup `/etc/hosts.ttttttt` file.
+   Example:
+
+    ```console
+    sudo rm /etc/hosts.${ETC_HOSTS_TIMESTAMP}
+    ```
+
 ### Delete git repository
 
 1. Delete git repository.  Example:
@@ -948,8 +990,23 @@ Feel free to submit a Pull Request for change.
     sudo rm -rf ${GIT_REPOSITORY_DIR}
     ```
 
+## Support
+
+If the instructions don't address an issue you are seeing, please "submit a request" so we can help you.
+Here are 3 ways to request:
+
+1. [Report an issue on GitHub](https://github.com/Senzing/ibm-openshift-guide/issues)
+1. [Submit a request](https://senzing.zendesk.com/hc/en-us/requests/new)
+1. Email: [support@senzing.com](mailto:support@senzing.com)
+
+This repository is a community project.
+Feel free to submit a Pull Request for change.
+
 ## References
 
+1. [Helm Charts](https://github.com/Senzing/awesome#helm-charts)
+1. [Docker images on Docker Hub](https://github.com/Senzing/awesome#dockerhub)
+1. [Dockerfiles](https://github.com/Senzing/awesome#dockerfiles)
 1. [OKD](https://docs.okd.io/)
     1. [minishift](https://docs.okd.io/latest/minishift/index.html)
         1. [Minishift basic usage](https://docs.okd.io/latest/minishift/using/basic-usage.html)
