@@ -864,6 +864,7 @@ The server supports the
 [Senzing REST API](https://github.com/Senzing/senzing-rest-api).
 
 1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api/master/senzing-rest-api.yaml).
+    1. In **Servers**, choose `http://senzing-api.local`
 1. Example Senzing REST API request:
    [http://senzing-api.local//heartbeat](http://senzing-api.local/heartbeat)
 1. See
@@ -877,6 +878,17 @@ The server supports the
 1. See
    [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
    for working with Senzing Entity Search WebApp.
+
+#### View Senzing Configurator
+
+:thinking: "Senzing Configuration" is an [optional chart](#install-senzing-configurator-helm-chart).
+If the chart has been deployed, it can be viewed.
+
+1. Senzing Configurator is viewable at
+   [http://senzing-configurator.local/datasources](http://senzing-configurator.local/datasources).
+1. See
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-configurator)
+   for working with Senzing Configurator.
 
 ## Cleanup
 
