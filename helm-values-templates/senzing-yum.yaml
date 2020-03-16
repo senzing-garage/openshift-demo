@@ -15,7 +15,3 @@ securityContext:
 senzing:
   acceptEula: ${SENZING_ACCEPT_EULA}
   persistentVolumeClaim: senzing-persistent-volume-claim
-  yumParameters:
-    - -y
-    - install
-    - senzingapi-ibm-cpd
