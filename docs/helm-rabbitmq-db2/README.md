@@ -11,7 +11,7 @@ The instructions show how to set up a system that:
     1. In this implementation, the queue is RabbitMQ.
 1. Reads messages from the queue and inserts into Senzing.
     1. In this implementation, Senzing keeps its data in an IBM Db2 database.
-1. Reads information from Senzing via [Senzing REST API](https://github.com/Senzing/senzing-rest-api) server.
+1. Reads information from Senzing via [Senzing API Server](https://github.com/Senzing/senzing-api-server) server.
 1. Views resolved entities in a [web app](https://github.com/Senzing/entity-search-web-app).
 
 The following diagram shows the relationship of the Helm charts, docker containers, and code in this OpenShift demonstration.
@@ -871,10 +871,10 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
 
 View results from Senzing REST API server.
 The server supports the
-[Senzing REST API](https://github.com/Senzing/senzing-rest-api).
+[Senzing API Server](https://github.com/Senzing/senzing-api-server).
 
 1. If not done previously, [modify hosts file](#modify-hosts-file)
-1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api/master/senzing-rest-api.yaml).
+1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api-specification/master/senzing-rest-api.yaml).
     1. In **Servers**, choose `http://senzing-api.local`
 1. Example Senzing REST API request:
    [http://senzing-api.local//heartbeat](http://senzing-api.local/heartbeat)
