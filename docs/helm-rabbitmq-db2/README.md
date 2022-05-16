@@ -92,9 +92,9 @@ Budget 4 hours to get the demonstration up-and-running, depending on CPU and net
 
 This repository assumes a working knowledge of:
 
-1. [Docker](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/docker.md)
-1. [OpenShift](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/openshift.md)
-1. [Helm](https://github.com/Senzing/knowledge-base/blob/master/WHATIS/helm.md)
+1. [Docker](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/docker.md)
+1. [OpenShift](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/openshift.md)
+1. [Helm](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/helm.md)
 
 ## Prerequisites
 
@@ -102,12 +102,12 @@ This repository assumes a working knowledge of:
 
 ### Minishift
 
-1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-minishift.md).
+1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/install-minishift.md).
     1. Instructions tested with minishift version 1.34.2.
 
 ### Helm
 
-1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/install-helm.md)
+1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/install-helm.md)
    on workstation.
     1. Instructions are written for Helm version 2.x.
        The instructions do not work with Helm version 3.x.
@@ -125,7 +125,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
 
-1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/master/HOWTO/clone-repository.md) to install the Git repository.
+1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/clone-repository.md) to install the Git repository.
 
 ## Demonstrate
 
@@ -207,7 +207,7 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
    This ensures that you make a conscious effort to accept the EULA.
    Example:
 
-    <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/master/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
+    <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
 
 ### Create OpenShift cluster
 
@@ -864,7 +864,7 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
    [http://rabbitmq.local](http://rabbitmq.local).
     1. **Defaults:** username: `user` password: `passw0rd`
 1. See
-   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#rabbitmq)
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#rabbitmq)
    for working with RabbitMQ.
 
 #### View Senzing API Server
@@ -874,12 +874,12 @@ The server supports the
 [Senzing API Server](https://github.com/Senzing/senzing-api-server).
 
 1. If not done previously, [modify hosts file](#modify-hosts-file)
-1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api-specification/master/senzing-rest-api.yaml).
+1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api-specification/main/senzing-rest-api.yaml).
     1. In **Servers**, choose `http://senzing-api.local`
 1. Example Senzing REST API request:
    [http://senzing-api.local//heartbeat](http://senzing-api.local/heartbeat)
 1. See
-   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-api-server)
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-api-server)
    for working with Senzing API server.
 
 #### View Senzing Entity Search WebApp
@@ -888,7 +888,7 @@ The server supports the
 1. Senzing Entity Search WebApp is viewable at
    [http://senzing-entity-search.local](http://senzing-entity-search.local).
 1. See
-   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
    for working with Senzing Entity Search WebApp.
 
 #### View Senzing Configurator
@@ -900,7 +900,7 @@ If the chart has been deployed, it can be viewed.
 1. Senzing Configurator is viewable at
    [http://senzing-configurator.local/datasources](http://senzing-configurator.local/datasources).
 1. See
-   [additional tips](https://github.com/Senzing/knowledge-base/blob/master/lists/docker-compose-demo-tips.md#senzing-configurator)
+   [additional tips](https://github.com/Senzing/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-configurator)
    for working with Senzing Configurator.
 
 ## Cleanup
