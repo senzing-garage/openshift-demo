@@ -102,12 +102,12 @@ This repository assumes a working knowledge of:
 
 ### Minishift
 
-1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/install-minishift.md).
+1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/minishift.md).
     1. Instructions tested with minishift version 1.34.2.
 
 ### Helm
 
-1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/install-helm.md)
+1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/helm.md)
    on workstation.
     1. Instructions are written for Helm version 2.x.
        The instructions do not work with Helm version 3.x.
