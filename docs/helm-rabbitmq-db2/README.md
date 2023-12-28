@@ -11,8 +11,8 @@ The instructions show how to set up a system that:
     1. In this implementation, the queue is RabbitMQ.
 1. Reads messages from the queue and inserts into Senzing.
     1. In this implementation, Senzing keeps its data in an IBM Db2 database.
-1. Reads information from Senzing via [Senzing API Server](https://github.com/Senzing/senzing-api-server) server.
-1. Views resolved entities in a [web app](https://github.com/Senzing/entity-search-web-app).
+1. Reads information from Senzing via [Senzing API Server](https://github.com/senzing-garage/senzing-api-server) server.
+1. Views resolved entities in a [web app](https://github.com/senzing-garage/entity-search-web-app).
 
 The following diagram shows the relationship of the Helm charts, docker containers, and code in this OpenShift demonstration.
 
@@ -92,9 +92,9 @@ Budget 4 hours to get the demonstration up-and-running, depending on CPU and net
 
 This repository assumes a working knowledge of:
 
-1. [Docker](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/docker.md)
-1. [OpenShift](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/openshift.md)
-1. [Helm](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/helm.md)
+1. [Docker](https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/docker.md)
+1. [OpenShift](https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/openshift.md)
+1. [Helm](https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/helm.md)
 
 ## Prerequisites
 
@@ -102,12 +102,12 @@ This repository assumes a working knowledge of:
 
 ### Minishift
 
-1. [Install minishift](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/minishift.md).
+1. [Install minishift](https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/minishift.md).
     1. Instructions tested with minishift version 1.34.2.
 
 ### Helm
 
-1. [Install Helm](https://github.com/Senzing/knowledge-base/blob/main/WHATIS/helm.md)
+1. [Install Helm](https://github.com/senzing-garage/knowledge-base/blob/main/WHATIS/helm.md)
    on workstation.
     1. Instructions are written for Helm version 2.x.
        The instructions do not work with Helm version 3.x.
@@ -125,7 +125,7 @@ The Git repository has files that will be used in the `helm install --values` pa
     export GIT_REPOSITORY_DIR="${GIT_ACCOUNT_DIR}/${GIT_REPOSITORY}"
     ```
 
-1. Follow steps in [clone-repository](https://github.com/Senzing/knowledge-base/blob/main/HOWTO/clone-repository.md) to install the Git repository.
+1. Follow steps in [clone-repository](https://github.com/senzing-garage/knowledge-base/blob/main/HOWTO/clone-repository.md) to install the Git repository.
 
 ## Demonstrate
 
@@ -207,7 +207,7 @@ To use the Senzing code, you must agree to the End User License Agreement (EULA)
    This ensures that you make a conscious effort to accept the EULA.
    Example:
 
-    <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/Senzing/knowledge-base/blob/main/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
+    <code>export SENZING_ACCEPT_EULA="&lt;the value from [this link](https://github.com/senzing-garage/knowledge-base/blob/main/lists/environment-variables.md#senzing_accept_eula)&gt;"</code>
 
 ### Create OpenShift cluster
 
@@ -864,14 +864,14 @@ The Senzing Configurator is a micro-service for changing Senzing configuration.
    [http://rabbitmq.local](http://rabbitmq.local).
     1. **Defaults:** username: `user` password: `passw0rd`
 1. See
-   [additional tips](https://github.com/Senzing/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#rabbitmq)
+   [additional tips](https://github.com/senzing-garage/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#rabbitmq)
    for working with RabbitMQ.
 
 #### View Senzing API Server
 
 View results from Senzing REST API server.
 The server supports the
-[Senzing API Server](https://github.com/Senzing/senzing-api-server).
+[Senzing API Server](https://github.com/senzing-garage/senzing-api-server).
 
 1. If not done previously, [modify hosts file](#modify-hosts-file)
 1. View REST API using [OpenApi "Swagger" editor](http://editor.swagger.io/?url=https://raw.githubusercontent.com/Senzing/senzing-rest-api-specification/main/senzing-rest-api.yaml).
@@ -879,7 +879,7 @@ The server supports the
 1. Example Senzing REST API request:
    [http://senzing-api.local//heartbeat](http://senzing-api.local/heartbeat)
 1. See
-   [additional tips](https://github.com/Senzing/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-api-server)
+   [additional tips](https://github.com/senzing-garage/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-api-server)
    for working with Senzing API server.
 
 #### View Senzing Entity Search WebApp
@@ -888,7 +888,7 @@ The server supports the
 1. Senzing Entity Search WebApp is viewable at
    [http://senzing-entity-search.local](http://senzing-entity-search.local).
 1. See
-   [additional tips](https://github.com/Senzing/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
+   [additional tips](https://github.com/senzing-garage/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-entity-search-webapp)
    for working with Senzing Entity Search WebApp.
 
 #### View Senzing Configurator
@@ -900,7 +900,7 @@ If the chart has been deployed, it can be viewed.
 1. Senzing Configurator is viewable at
    [http://senzing-configurator.local/datasources](http://senzing-configurator.local/datasources).
 1. See
-   [additional tips](https://github.com/Senzing/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-configurator)
+   [additional tips](https://github.com/senzing-garage/knowledge-base/blob/main/lists/docker-compose-demo-tips.md#senzing-configurator)
    for working with Senzing Configurator.
 
 ## Cleanup
@@ -1003,7 +1003,7 @@ Restore contents to the original.
 If the instructions don't address an issue you are seeing, please "submit a request" so we can help you.
 Here are 3 ways to request:
 
-1. [Report an issue on GitHub](https://github.com/Senzing/ibm-openshift-guide/issues)
+1. [Report an issue on GitHub](https://github.com/senzing-garage/ibm-openshift-guide/issues)
 1. [Submit a request](https://senzing.zendesk.com/hc/en-us/requests/new)
 1. Email: [support@senzing.com](mailto:support@senzing.com)
 
@@ -1012,9 +1012,9 @@ Feel free to submit a Pull Request for change.
 
 ## References
 
-1. [Helm Charts](https://github.com/Senzing/awesome#helm-charts)
-1. [Docker images on Docker Hub](https://github.com/Senzing/awesome#dockerhub)
-1. [Dockerfiles](https://github.com/Senzing/awesome#dockerfiles)
+1. [Helm Charts](https://github.com/senzing-garage/awesome#helm-charts)
+1. [Docker images on Docker Hub](https://github.com/senzing-garage/awesome#dockerhub)
+1. [Dockerfiles](https://github.com/senzing-garage/awesome#dockerfiles)
 1. [OKD](https://docs.okd.io/)
     1. [minishift](https://docs.okd.io/latest/minishift/index.html)
         1. [Minishift basic usage](https://docs.okd.io/latest/minishift/using/basic-usage.html)
