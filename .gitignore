@@ -1,4 +1,9 @@
 .DS_Store
-.history
 helm-values/
 kubernetes/
+
+# Visual Studio code
+.vscode/*
+!.vscode/cspell.json
+*.code-workspace
+.history
