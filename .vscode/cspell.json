@@ -3,16 +3,17 @@
   "language": "en",
   "words": [
     "CCLA",
-    "CODEOWNER",
-    "Dockerfiles",
-    "ICLA",
-    "Senzing",
     "clusterrole",
     "clusterrolebinding",
+    "CODEOWNER",
     "configurator",
+    "cooldown",
     "cpus",
+    "Dockerfiles",
     "envsubst",
     "esbenp",
+    "ICLA",
+    "kernelsam",
     "localinstall",
     "minishift",
     "passw",
@@ -22,12 +23,11 @@
     "redoer",
     "rpms",
     "runasany",
+    "Senzing",
     "senzingapi",
     "senzingdata",
     "serviceaccount",
     "stackoverflow"
   ],
-  "ignorePaths": [
-    ".git/**"
-  ]
+  "ignorePaths": [".git/**"]
 }
